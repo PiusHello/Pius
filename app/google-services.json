@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "506439537853",
+    "firebase_url": "https://food-e112d.firebaseio.com",
+    "project_id": "food-e112d",
+    "storage_bucket": "food-e112d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:506439537853:android:7e9e7bded85c69ee",
+        "android_client_info": {
+          "package_name": "com.example.food"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "506439537853-ok5dhmlr650vhsg2mt8lk263k4a3pdvm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.food",
+            "certificate_hash": "64c785e46df9fbecdba5898d387e9cf4d4975303"
+          }
+        },
+        {
+          "client_id": "506439537853-vkma51hdfh0b82uc5s9btckl26n63nc1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEXUj4dPjZ0y2NypbewMdsv8vTrjOBg9Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "506439537853-vkma51hdfh0b82uc5s9btckl26n63nc1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
