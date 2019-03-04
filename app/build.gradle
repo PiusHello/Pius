@@ -40,6 +40,7 @@ dependencies {
     implementation 'io.paperdb:paperdb:2.6'
     implementation 'info.hoang8f:fbutton:1.0.5'
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.+'
     //implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.squareup.picasso:picasso:2.5.2'
 

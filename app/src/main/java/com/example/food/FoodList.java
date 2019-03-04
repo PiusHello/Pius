@@ -5,20 +5,20 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.food.Model.Food;
 import com.example.food.ViewHolder.FoodViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class FoodList extends AppCompatActivity {
@@ -46,8 +46,8 @@ public class FoodList extends AppCompatActivity {
 
         //DatabaseReference foodRef = FirebaseDatabase.getInstance().getReference("FoodList");
 
-        mDatabase = FirebaseDatabase.getInstance().getReference("FoodList");
-        Query query = mDatabase.orderByChild("categoryName").equalTo("BreakFast");
+        mDatabase = FirebaseDatabase.getInstance().getReference("FoodList").orderByChild("FoodID").getRef();
+        //Query query = mDatabase.orderByChild("FoodID").equalTo("BreakFast");
 
 
         // mAuth = FirebaseAuth.getInstance();
@@ -70,30 +70,44 @@ public class FoodList extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
 
+    }
+        @Override
+        protected void onStart() {
+            super.onStart();
 
-        query.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot)
-            {
-                String foodName = (String) dataSnapshot.child("Name").getValue();
-                String foodDescription = (String) dataSnapshot.child("Description").getValue();
-                String foodPrice = (String) dataSnapshot.child("Price").getValue();
-                String foodImage = (String) dataSnapshot.child("Image").getValue();
+            FirebaseRecyclerOptions<Food> options=
+                    new FirebaseRecyclerOptions.Builder<Food>()
+                            .setQuery(mDatabase,Food.class)
+                            .build();
 
-                FoodName.setText(foodName);
-                FoodDescription.setText(foodDescription);
-                FoodPrice.setText(foodPrice);
-                Picasso.with(FoodList.this).load(foodImage).into(FoodImage);
+            FirebaseRecyclerAdapter<Food, FoodViewHolder> adapter=
+                    new FirebaseRecyclerAdapter<Food, FoodViewHolder>(options) {
+                        @Override
+                        protected void onBindViewHolder(@NonNull FoodViewHolder holder, int position, @NonNull Food model)
+                        {
+                            holder.foodName.setText(model.getName());
+                            holder.foodDescription.setText(model.getDescription());
+                            holder.foodPrice.setText(model.getPrice());
+                            Picasso.with(FoodList.this).load(model.getImage()).into(holder.foodImage);
 
-                recyclerView.setAdapter(adapter);
-                adapter.startListening();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
 
-            }
-        });
+                        @NonNull
+                        @Override
+                        public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i)
+                        {
+                            View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_of_food,viewGroup,false);
+                            FoodViewHolder holder = new FoodViewHolder(view);
+                            return holder;
+
+
+                        }
+                    };
+
+            recyclerView.setAdapter(adapter);
+            adapter.startListening();
+        }
 
 
 
@@ -137,5 +151,5 @@ public class FoodList extends AppCompatActivity {
 
 
     }
-    }
+
 

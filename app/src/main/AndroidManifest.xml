@@ -4,6 +4,8 @@
     package="com.example.food">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application xmlns:tools="http://schemas.android.com/tools"
         android:allowBackup="true"
@@ -16,7 +18,8 @@
         <activity android:name=".FoodList"></activity>
         <activity android:name=".CartActivity" />
         <activity android:name=".AboutActivity" />
-        <activity android:name=".SettingActivity" />
+        <activity android:name=".SettingActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".SelectedFoodDetails" />
         <activity android:name=".LoginActivity" />
         <activity
@@ -31,6 +34,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
+
     </application>
 
 </manifest>

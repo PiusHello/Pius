@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.food.Model.FoodCategory;
+import com.example.food.Prevalent.Prevalent;
 import com.example.food.ViewHolder.FoodCategoryList;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -129,6 +130,7 @@ public class HomeActivity extends AppCompatActivity
         final CircleImageView profileImage = headerView.findViewById(R.id.profile_image);
 
         profileName.setText(username);
+        Picasso.with(HomeActivity.this).load(Prevalent.currentOnLineUser).placeholder(R.drawable.background).into(profileImage);
 
         databaseReference.child(currentUserID).addValueEventListener(new ValueEventListener() {
             @Override
