@@ -35,6 +35,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.example.food.Model.sum;
+
+import java.security.SecureRandom;
 import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
@@ -185,7 +187,7 @@ checkout();
 
     public void checkout(){
         FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
-        String email=firebaseAuth.getCurrentUser().getEmail();
+        final String email=firebaseAuth.getCurrentUser().getEmail();
         cartList = FirebaseDatabase.getInstance().getReference("Cart List");
         cartList.child("Users View")
                 .child(Prevalent.currentOnLineUser).child("Food_List").addValueEventListener(new ValueEventListener() {
@@ -193,6 +195,7 @@ checkout();
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
            float total=0;
+           //clear the arraylist
               cartprice.clear();
               cartquantity.clear();
 
@@ -217,13 +220,17 @@ checkout();
         new RavePayManager(CartActivity.this).setAmount(finalTotal)
                 .setCountry("GH")
                 .setCurrency("GHS")
-                .setEmail("deedat5@gmail.com")
-                .setfName("deedat")
-                .setlName("billa")
-                .setNarration("nothing")
+                .setEmail(email)
+                .setfName(userNameFromEmail(email))
+                //.setlName("billa")
+                //.setNarration("")
+
+                //replace with your public key from the flutterwave dashboard
                 .setPublicKey("FLWPUBK-eeb47cf2d83a9775687ed6490c2b3091-X")
+                //replace with your ecncryption key from the flutterwave dashboard
                 .setEncryptionKey("2b2691f610fe631baeb98c8c")
-                .setTxRef("78y38y3")
+                //here a random string is generated for txref
+                .setTxRef(generateTXREF())
                 .acceptAccountPayments(true)
                 .acceptCardPayments(true)
                 .acceptMpesaPayments(false)
@@ -235,8 +242,9 @@ checkout();
                 //.setMeta(List<Meta>)
                 .withTheme(R.style.AppTheme)
                 .isPreAuth(false)
+                
                 //  .setSubAccounts(List<SubAccount>)
-                // .shouldDisplayFee(true)
+                //.shouldDisplayFee(true)
                 .initialize();
     }
 });
@@ -271,4 +279,28 @@ checkout();
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
+    // this function will generate a random transaction reference
+    public static String generateTXREF() {
+        String ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
+        SecureRandom RANDOM = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 10; ++i) {
+            sb.append(ALPHABET.charAt(RANDOM.nextInt(ALPHABET.length())));
+        }
+        return sb.toString();
+    }
+
+    public  String userNameFromEmail(String email)
+    {
+        if(email.contains("@"))
+        {
+            return email.split("@")[0];
+        }
+        else
+        {
+            return email;
+        }
+    }
+
 }
