@@ -1,34 +1,24 @@
 package com.example.food.Model;
 
-public class Food
-{
-   private String Name;
+public class Food {
+    private String Name;
     private String Image;
     private String Description;
-    private String  Price;
-    private String  FoodID;
+    private String Price;
+    private String MenuID;
 
 
-    public Food()
-    {
+    public Food() {
 
     }
 
-    public Food(String foodid,String name, String image, String description, String price) {
+    public Food(String name, String image, String description, String price, String menuID) {
         Name = name;
         Image = image;
         Description = description;
         Price = price;
-        FoodID = foodid;
+        MenuID = menuID;
     }
-    public String getFoodID() {
-        return FoodID;
-    }
-
-    public void setFoodID(String foodid) {
-        FoodID = foodid;
-    }
-
 
     public String getName() {
         return Name;
@@ -60,5 +50,13 @@ public class Food
 
     public void setPrice(String price) {
         Price = price;
+    }
+
+    public String getMenuID() {
+        return MenuID;
+    }
+
+    public void setMenuID(String menuID) {
+        MenuID = menuID;
     }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@mipmap/ic_sign_in_background" >
+     android:background="@mipmap/ic_sign_up_background">
 
     <TextView
         android:layout_width="match_parent"
@@ -30,14 +30,7 @@
          android:textColor="@color/colorWhite"
          />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="Make A Choice"
-        android:textAlignment="center"
-        android:textColor="@color/colorWhite"
-        android:textSize="20dp" />
+
 
     <TextView
         android:layout_width="match_parent"
@@ -71,11 +64,12 @@
 
 
     <TextView
-        android:id="@+id/admin"
+        android:id="@+id/phoneNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="400dp"
-        android:text="Admin "
+        android:layout_below="@id/sign_up_button"
+        android:layout_marginTop="20dp"
+        android:text="I Have My Phone"
         android:textAlignment="center"
         android:textColor="@color/colorBlue"
         android:textSize="20dp" />

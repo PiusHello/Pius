@@ -10,6 +10,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -37,7 +38,9 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
-public class HomeActivity extends AppCompatActivity
+public class
+
+HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth firebaseAuth;
@@ -55,8 +58,10 @@ public class HomeActivity extends AppCompatActivity
 
         recyclerView = findViewById(R.id.recycler_menu);
         recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
+
+        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+//        layoutManager = new LinearLayoutManager(this);
+//         recyclerView.setLayoutManager(layoutManager);
 
         Paper.init(this);
 
@@ -77,9 +82,9 @@ public class HomeActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Cart", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
 
+                Intent intent = new Intent(HomeActivity.this,CartActivity.class);
+                startActivity(intent);
 
             }
         });
@@ -130,7 +135,7 @@ public class HomeActivity extends AppCompatActivity
         final CircleImageView profileImage = headerView.findViewById(R.id.profile_image);
 
         profileName.setText(username);
-        Picasso.with(HomeActivity.this).load(Prevalent.currentOnLineUser).placeholder(R.drawable.background).into(profileImage);
+        Picasso.get().load(Prevalent.currentOnLineUser).placeholder(R.drawable.background).into(profileImage);
 
         databaseReference.child(currentUserID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -153,7 +158,7 @@ public class HomeActivity extends AppCompatActivity
     }
 
 
-        private  String userNameFromEmail(String email)
+        public  String userNameFromEmail(String email)
         {
             if(email.contains("@"))
             {
@@ -180,7 +185,8 @@ public class HomeActivity extends AppCompatActivity
                     protected void onBindViewHolder(@NonNull FoodCategoryList holder, int position, @NonNull FoodCategory model)
                     {
                           holder.FoodCategoryName.setText(model.getCategoryName());
-                          Picasso.with(HomeActivity.this).load(model.getCategoryImage()).into(holder.FoodCategoryImage);
+                         // holder.FoodCategoryName.setText(model.getCategoryDescription());
+                        Picasso.get().load(model.getCategoryImage()).into(holder.FoodCategoryImage);
 
                         final String food_key =getRef(position).getKey().toString();
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -217,10 +223,10 @@ public class HomeActivity extends AppCompatActivity
         FirebaseRecyclerOptions<Food> options =
                 new FirebaseRecyclerOptions.Builder<Food>()
                 .setQuery(databaseReference,Food.class)
-                .build();
 
         final FirebaseRecyclerAdapter<Food, FoodViewHolder> adapter =
                 new FirebaseRecyclerAdapter<Food, FoodViewHolder>(options) {
+                .build();
                      @Override
                     protected void onBindViewHolder(@NonNull FoodViewHolder holder, final int position, @NonNull final Food model)
                     {
@@ -287,7 +293,9 @@ public class HomeActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent intent = new Intent(HomeActivity.this,SettingActivity.class);
+            startActivity(intent);
+//            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -307,7 +315,8 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_cart)
         {
-            // Handle the camera action
+            Intent intent = new Intent(HomeActivity.this,CartActivity.class);
+            startActivity(intent);
         }
 
         else if (id == R.id.nav_order)

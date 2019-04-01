@@ -262,7 +262,7 @@ public class SettingActivity extends AppCompatActivity {
                         String Email = dataSnapshot.child("Email").getValue().toString().trim();
                         String Location = dataSnapshot.child("Location").getValue().toString().trim();
 
-                        Picasso.with(SettingActivity.this).load(image).into(profileImage);
+                        Picasso.get().load(image).into(profileImage);
                         fullName.setText(name);
                         email.setText(Email);
                         location.setText(Location);

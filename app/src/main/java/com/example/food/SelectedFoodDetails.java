@@ -46,7 +46,7 @@ public class SelectedFoodDetails extends AppCompatActivity {
         setContentView(R.layout.activity_selected_food_details);
 
         foodkey = getIntent().getStringExtra("FoodID");
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("Food_List");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("FoodList");
 
 
         food_name  = (TextView) findViewById(R.id.FoodName);
@@ -78,8 +78,8 @@ public class SelectedFoodDetails extends AppCompatActivity {
 
                 food_name.setText(foodName);
                 food_description.setText(foodDescription);
-                food_price.setText(foodPrice);
-                Picasso.with(SelectedFoodDetails.this).load(foodImage).into(food_image);
+                food_price.setText( " Price ¢ " + foodPrice);
+                Picasso.get().load(foodImage).into(food_image);
 
             }
 
@@ -109,6 +109,7 @@ public class SelectedFoodDetails extends AppCompatActivity {
         CartMap.put("Price",food_price.getText().toString());
         CartMap.put("Date",saveCurrentDate);
         CartMap.put("Time",saveCurrentTime);
+       // CartMap.put("Image",food_image);
         CartMap.put("Quantity",NumberButton.getNumber());
 
         cartList.child("Users View").child(Prevalent.currentOnLineUser).child("Food_List")

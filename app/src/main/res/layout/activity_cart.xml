@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
     tools:context=".CartActivity">
 
     <RelativeLayout
@@ -15,11 +19,12 @@
 
 
         <TextView
-            android:id="@+id/totalPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
+
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
             android:layout_marginTop="20dp"
-            android:text="Total Price"
+            android:text="Cart"
+            android:textAlignment="center"
             android:layout_marginHorizontal="150dp"
             android:textColor="@color/colorWhite"
             android:textSize="18dp" />
@@ -27,12 +32,51 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cartList"
-        android:layout_below="@+id/r1"
-        android:layout_above="@+id/proceedButton"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/r1"
+        android:layout_marginStart="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:orientation="vertical">
 
-        ></android.support.v7.widget.RecyclerView>
+
+    </android.support.v7.widget.RecyclerView>
+
+
+    <LinearLayout
+        android:id="@+id/l1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/cartList"
+        android:layout_marginTop="-4dp">
+
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:text="Total Price"
+            android:textAlignment="center"
+            android:textColor="@color/colorOrange"
+            android:textSize="13dp"
+
+            />
+
+        <TextView
+            android:id="@+id/totalprice"
+            android:layout_width="150dp"
+            android:layout_height="38dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
+
+
+            android:textSize="13dp" />
+
+    </LinearLayout>
+
+
 
     <Button
         android:id="@+id/proceedButton"
@@ -41,8 +85,9 @@
         android:layout_alignParentBottom="true"
         android:text="Proceed To Payment"
         android:textSize="18dp"
+        android:layout_below="@+id/l1"
         android:textColor="@color/colorWhite"
         android:background="@color/colorBlue"
-        android:layout_margin="10dp"/>
+        />
 
 </RelativeLayout>

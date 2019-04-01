@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.food.Prevalent.Prevalent;
@@ -26,6 +27,7 @@ import io.paperdb.Paper;
 public class MainActivity extends AppCompatActivity {
 
     private Button signup,signin;
+    private TextView signInWithPhoneNumber;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference myDatabase;
     private ProgressDialog progressDialog;
@@ -36,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         signin = (Button) findViewById(R.id.sign_in_button);
         signup = (Button) findViewById(R.id.sign_up_button);
+        signInWithPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
 
         firebaseAuth =FirebaseAuth.getInstance();
         myDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -51,6 +54,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(loginIntent);
             }
         });
+
+        signInWithPhoneNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                phoneRegistrationActivity();
+            }
+        });
+
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +88,12 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    private void phoneRegistrationActivity()
+    {
+        Intent intent = new Intent(MainActivity.this,RegisterWithPhone.class);
+        startActivity(intent);
     }
 
     private void AllowUserUserAccess(final String userEmail, String userPassword)

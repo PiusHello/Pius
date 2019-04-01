@@ -3,13 +3,15 @@ package com.example.food.Model;
 public class FoodCategory {
     public String categoryName;
     public String categoryImage;
+    public String categoryDescription;
 
     public FoodCategory() {
     }
 
-    public FoodCategory(String categoryName, String categoryImage) {
+    public FoodCategory(String categoryName, String categoryImage, String categoryDescription) {
         this.categoryName = categoryName;
         this.categoryImage = categoryImage;
+        this.categoryDescription = categoryDescription;
     }
 
     public String getCategoryName() {
@@ -26,5 +28,13 @@ public class FoodCategory {
 
     public void setCategoryImage(String categoryImage) {
         this.categoryImage = categoryImage;
+    }
+
+    public String getCategoryDescription() {
+        return categoryDescription;
+    }
+
+    public void setCategoryDescription(String categoryDescription) {
+        this.categoryDescription = categoryDescription;
     }
 }

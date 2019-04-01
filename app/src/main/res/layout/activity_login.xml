@@ -7,14 +7,6 @@
     tools:context=".LoginActivity">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        android:text="Only For Registered Users"
-        android:textAlignment="center"
-        android:textColor="@color/colorBlack"
-        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/dont_have_account"
