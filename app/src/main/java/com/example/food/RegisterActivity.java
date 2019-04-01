@@ -99,7 +99,7 @@ public class RegisterActivity extends AppCompatActivity {
         {
             Toast.makeText(RegisterActivity.this,"Email Is Invalid, Add The @ Sign",Toast.LENGTH_SHORT).show();
         }
-        else if(!email.contains("gmail.com") && !email.contains("yahoomail.com") && !email.contains("icloud.com"))
+        else if(!email.contains("gmail.com") && !email.contains("yahoo.com") && !email.contains("icloud.com"))
         {
             Toast.makeText(RegisterActivity.this,"Email Is Invalid",Toast.LENGTH_SHORT).show();
         }

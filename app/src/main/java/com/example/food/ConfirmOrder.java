@@ -19,7 +19,6 @@ private Button confirmButton;
 
         totalAmount = getIntent().getStringExtra("Total Price");
         Toast.makeText(this," Total Price : " + totalAmount,Toast.LENGTH_SHORT).show();
-
         yourLocation = (EditText) findViewById(R.id.enterLocation);
         phoneNumber = (EditText) findViewById(R.id.phone);
         confirmButton = (Button) findViewById(R.id.confirmButton);

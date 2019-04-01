@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,11 +22,22 @@ import com.example.food.Prevalent.Prevalent;
 import com.example.food.ViewHolder.CartViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.flutterwave.raveandroid.RaveConstants;
+import com.flutterwave.raveandroid.RavePayActivity;
+import com.flutterwave.raveandroid.RavePayManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.example.food.Model.sum;
+
+import java.security.SecureRandom;
+import java.util.ArrayList;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -35,6 +47,9 @@ public class CartActivity extends AppCompatActivity {
     private TextView totalAmount;
     private ImageView cartFoodPicture;
     DatabaseReference cartList;
+    ArrayList<Double> cartprice=new ArrayList();
+    ArrayList<Integer> cartquantity=new ArrayList();
+    Button checkout;
 
     private double OverRawTotalPrice = 0;
 
@@ -43,13 +58,13 @@ public class CartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-
+checkout=findViewById(R.id.checkout);
         recyclerView =findViewById(R.id.cartList);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-
+checkout();
         proceedButton = (Button) findViewById(R.id.proceedButton);
         totalAmount = (TextView) findViewById(R.id.totalprice);
         cartFoodPicture = (ImageView)findViewById(R.id.cartFoodImage);
@@ -169,4 +184,123 @@ public class CartActivity extends AppCompatActivity {
         adapter.startListening();
 
     }
+
+    public void checkout(){
+        FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
+        final String email=firebaseAuth.getCurrentUser().getEmail();
+        cartList = FirebaseDatabase.getInstance().getReference("Cart List");
+        cartList.child("Users View")
+                .child(Prevalent.currentOnLineUser).child("Food_List").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+           float total=0;
+           //clear the arraylist
+              cartprice.clear();
+              cartquantity.clear();
+
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Cart mycart = snapshot.getValue(Cart.class);
+                    cartquantity.add(Integer.valueOf(mycart.getQuantity()));
+                    cartprice.add(Double.valueOf(mycart.getPrice()));
+
+                }
+                for(int i=0;i<cartquantity.size();i++){
+                    total+=cartprice.get(i)*cartquantity.get(i);
+
+                }
+
+                checkout.setText("total: "+total+" Checkout");
+                final float finalTotal = total;
+                checkout.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View v) {
+
+        new RavePayManager(CartActivity.this).setAmount(finalTotal)
+                .setCountry("GH")
+                .setCurrency("GHS")
+                .setEmail(email)
+                .setfName(userNameFromEmail(email))
+                //.setlName("billa")
+                //.setNarration("")
+
+                //replace with your public key from the flutterwave dashboard
+                .setPublicKey("FLWPUBK-eeb47cf2d83a9775687ed6490c2b3091-X")
+                //replace with your ecncryption key from the flutterwave dashboard
+                .setEncryptionKey("2b2691f610fe631baeb98c8c")
+                //here a random string is generated for txref
+                .setTxRef(generateTXREF())
+                .acceptAccountPayments(true)
+                .acceptCardPayments(true)
+                .acceptMpesaPayments(false)
+                .acceptAchPayments(false)
+                .acceptGHMobileMoneyPayments(true)
+                .acceptUgMobileMoneyPayments(false)
+                .onStagingEnv(true)
+                .allowSaveCardFeature(true)
+                //.setMeta(List<Meta>)
+                .withTheme(R.style.AppTheme)
+                .isPreAuth(false)
+                
+                //  .setSubAccounts(List<SubAccount>)
+                //.shouldDisplayFee(true)
+                .initialize();
+    }
+});
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RaveConstants.RAVE_REQUEST_CODE && data != null) {
+            String message = data.getStringExtra("response");
+            if (resultCode == RavePayActivity.RESULT_SUCCESS) {
+                //if payment successfull show a success page containing the order details
+                Toast.makeText(this, "SUCCESS " + message, Toast.LENGTH_SHORT).show();
+            }
+            else if (resultCode == RavePayActivity.RESULT_ERROR) {
+                //if payment wasnt successfull show error page
+                Toast.makeText(this, "ERROR " + message, Toast.LENGTH_SHORT).show();
+            }
+            else if (resultCode == RavePayActivity.RESULT_CANCELLED) {
+
+                Toast.makeText(this, "CANCELLED " + message, Toast.LENGTH_SHORT).show();
+            }
+        }
+        else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    // this function will generate a random transaction reference
+    public static String generateTXREF() {
+        String ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
+        SecureRandom RANDOM = new SecureRandom();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 10; ++i) {
+            sb.append(ALPHABET.charAt(RANDOM.nextInt(ALPHABET.length())));
+        }
+        return sb.toString();
+    }
+
+    public  String userNameFromEmail(String email)
+    {
+        if(email.contains("@"))
+        {
+            return email.split("@")[0];
+        }
+        else
+        {
+            return email;
+        }
+    }
+
 }
