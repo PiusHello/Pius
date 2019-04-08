@@ -1,4 +1,6 @@
-package com.example.food;
+package com.example.food.OtherActivitiesClass;
+
+
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.food.Prevalent.Prevalent;
+import com.example.food.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -91,21 +94,21 @@ public class LoginActivity extends AppCompatActivity {
 
 
             firebaseAuth.signInWithEmailAndPassword(email,password)
-                   .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                       @Override
-                       public void onComplete(@NonNull Task<AuthResult> task) {
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
 
-                           if(task.isSuccessful())
-                           {
-                               if(checkBox.isChecked())
-                               {
-                                   Paper.book().write(Prevalent.UserEmailKey,email);
+                            if(task.isSuccessful())
+                            {
+                                if(checkBox.isChecked())
+                                {
+                                    Paper.book().write(Prevalent.UserEmailKey,email);
                                     Paper.book().write(Prevalent.UserPasswordKey,password);
-                               }
-                               final String user_id = firebaseAuth.getCurrentUser().getUid();
-                               myDatabase.addValueEventListener(new ValueEventListener() {
-                                   @Override
-                                   public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                }
+                                final String user_id = firebaseAuth.getCurrentUser().getUid();
+                                myDatabase.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         if(dataSnapshot.hasChild(user_id))
                                         {
                                             progressDialog.dismiss();
@@ -119,26 +122,26 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.makeText(LoginActivity.this,"You Have Successfully Logged In",Toast.LENGTH_SHORT).show();
 
                                         }
-                                   }
+                                    }
 
                                     @Override
-                                   public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                   }
-                               });
+                                    }
+                                });
 
                             }
-                           else
-                           {
-                               String errorMessage = task.getException().getMessage();
-                               Toast.makeText(LoginActivity.this,"An Error Occurred",Toast.LENGTH_LONG).show();
+                            else
+                            {
+                                String errorMessage = task.getException().getMessage();
+                                Toast.makeText(LoginActivity.this,"An Error Occurred",Toast.LENGTH_LONG).show();
 
-                               Intent loginIntent = new Intent(LoginActivity.this,LoginActivity.class);
-                               loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                               startActivity(loginIntent);
-                           }
-                       }
-                   });
+                                Intent loginIntent = new Intent(LoginActivity.this,LoginActivity.class);
+                                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(loginIntent);
+                            }
+                        }
+                    });
 
         }
     }
