@@ -133,7 +133,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 currentUser.child("Username").setValue(name);
                                 currentUser.child("Email").setValue(email);
-                                currentUser.child("Password").setValue(password);
+                               // currentUser.child("Password").setValue(password);
 
                                 loadingBox.dismiss();
                                 Toast.makeText(RegisterActivity.this,"Registration Was Successful",Toast.LENGTH_SHORT).show();

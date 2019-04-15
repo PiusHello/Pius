@@ -122,6 +122,9 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.makeText(LoginActivity.this,"You Have Successfully Logged In",Toast.LENGTH_SHORT).show();
 
                                         }
+
+
+
                                     }
 
                                     @Override
@@ -134,7 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                             else
                             {
                                 String errorMessage = task.getException().getMessage();
-                                Toast.makeText(LoginActivity.this,"An Error Occurred",Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this,"You must registered before you login",Toast.LENGTH_LONG).show();
 
                                 Intent loginIntent = new Intent(LoginActivity.this,LoginActivity.class);
                                 loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

@@ -27,7 +27,7 @@
             android:textStyle="bold"/>
 
         <ImageView
-             android:layout_width="match_parent"
+            android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_below="@+id/FoodName"
             android:scaleType="centerCrop"
@@ -65,28 +65,28 @@
             app:initialNumber="1"
             app:finalNumber="100"
             android:layout_below="@id/FoodPrice"
-             android:layout_marginTop="50dp"
+            android:layout_marginTop="50dp"
             android:layout_centerHorizontal="true"/>
 
 
-<!--
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/cart_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_marginLeft="220dp"
-            app:srcCompat="@mipmap/ic_shopping_cart"
-            android:layout_below="@+id/FoodPrice"
-            android:layout_marginTop="10dp">
+        <!--
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/cart_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginLeft="220dp"
+                    app:srcCompat="@mipmap/ic_shopping_cart"
+                    android:layout_below="@+id/FoodPrice"
+                    android:layout_marginTop="10dp">
 
-        </android.support.design.widget.FloatingActionButton>
--->
+                </android.support.design.widget.FloatingActionButton>
+        -->
 
         <Button
             android:id="@+id/addToCart"
             android:layout_alignParentBottom="true"
-             android:background="@color/colorBlue"
+            android:background="@color/colorBlue"
             android:text="Add To Cart"
             android:textColor="@color/colorWhite"
             android:textSize="16dp"

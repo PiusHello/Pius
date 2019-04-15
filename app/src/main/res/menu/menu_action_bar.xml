@@ -10,6 +10,6 @@
         android:title="Cart"
         app:showAsAction="always"
         android:actionLayout="@layout/action_bar_notification_icon"
-></item>
+        ></item>
 
 </menu>

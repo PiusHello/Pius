@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.example.food.Model.FoodCategory;
 import com.example.food.Prevalent.Prevalent;
 import com.example.food.R;
+import com.example.food.SearchFoodActivity;
 import com.example.food.ViewHolder.FoodCategoryList;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -275,6 +276,12 @@ HomeActivity extends AppCompatActivity
         else if (id == R.id.nav_order)
         {
 
+        }
+
+        else if (id == R.id.searchParticularFood)
+        {
+            Intent intent = new Intent(HomeActivity.this, SearchFoodActivity.class);
+            startActivity(intent);
         }
 
         else if (id == R.id.nav_setting)

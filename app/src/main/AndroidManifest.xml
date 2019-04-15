@@ -19,7 +19,7 @@
         tools:replace="android:theme">
         <activity android:name=".SearchFoodActivity"></activity>
         <activity android:name=".OtherActivitiesClass.MainActivity" />
-        <activity android:name=".OtherActivitiesClass.ConfirmOrder" />
+        <!--<activity android:name=".OtherActivitiesClass.ConfirmOrder" />-->
         <activity android:name=".OtherActivitiesClass.RegisterWithPhone" />
         <activity android:name=".OtherActivitiesClass.FoodList" />
         <activity

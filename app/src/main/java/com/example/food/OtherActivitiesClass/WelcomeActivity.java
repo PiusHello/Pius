@@ -7,8 +7,9 @@ import android.os.Handler;
 
 import com.example.food.R;
 
+
 public class WelcomeActivity extends Activity {
-private static int SPLASH_TIME_OUT = 5000;
+    private static int SPLASH_TIME_OUT = 5000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

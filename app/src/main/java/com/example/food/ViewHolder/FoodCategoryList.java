@@ -36,6 +36,6 @@ public class FoodCategoryList extends RecyclerView.ViewHolder implements View.On
     @Override
     public void onClick(View v)
     {
-      listener.onClick(v,getAdapterPosition(),false);
+        listener.onClick(v,getAdapterPosition(),false);
     }
 }

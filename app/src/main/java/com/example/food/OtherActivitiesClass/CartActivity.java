@@ -51,6 +51,8 @@ public class CartActivity extends AppCompatActivity {
     ArrayList<Integer> cartquantity=new ArrayList();
     Button checkout;
 
+    private String user_id;
+
     private double OverRawTotalPrice = 0;
 
 
@@ -85,7 +87,7 @@ checkout();
         final FirebaseRecyclerOptions<Cart> options =
                 new FirebaseRecyclerOptions.Builder<Cart>()
                 .setQuery(cartList.child("Users View")
-                        .child(Prevalent.currentOnLineUser).child("Food_List"),Cart.class)
+                        .child(user_id).child("Food_List"),Cart.class)
                         .build();
 
         FirebaseRecyclerAdapter<Cart, CartViewHolder> adapter
@@ -137,7 +139,7 @@ checkout();
                                     //Again when a user select Delete from the option, will be able to delete
                                     //item from the cart.
                                     cartList.child("Users View")//At the database level from the CartList
-                                            .child(Prevalent.currentOnLineUser)
+                                            .child(user_id)
                                             .child("Food_List")//From the child of Cart List will be updated
                                             .child(model.getFoodID())
                                             .removeValue()//Method for removing the item from the cart
@@ -182,10 +184,11 @@ checkout();
 
     public void checkout(){
         FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
+        user_id = firebaseAuth.getUid();
         final String email=firebaseAuth.getCurrentUser().getEmail();
         cartList = FirebaseDatabase.getInstance().getReference("Cart List");
         cartList.child("Users View")
-                .child(Prevalent.currentOnLineUser).child("Food_List").addValueEventListener(new ValueEventListener() {
+                .child(user_id).child("Food_List").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

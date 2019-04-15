@@ -38,10 +38,12 @@ public class SelectedFoodDetails extends AppCompatActivity {
     FloatingActionButton cart_number_button;
     String foodkey = null;
 
-    DatabaseReference mDatabase,userData;
+    DatabaseReference mDatabase;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     String foodPrice;
+    String url;
+    String userData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,8 @@ public class SelectedFoodDetails extends AppCompatActivity {
         foodkey = getIntent().getStringExtra("FoodID");
         mDatabase = FirebaseDatabase.getInstance().getReference().child("FoodList");
 
+       foodkey = getIntent().getStringExtra("FoodID");
+       url = getIntent().getStringExtra("image");
 
         food_name  = (TextView) findViewById(R.id.FoodName);
         food_description =(TextView) findViewById(R.id.FoodDescription);
@@ -60,7 +64,8 @@ public class SelectedFoodDetails extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        //userData = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getEmail());
+        userData = currentUser.getUid();
+
 
         addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +113,7 @@ public class SelectedFoodDetails extends AppCompatActivity {
         CartMap.put("FoodID",foodkey);
         CartMap.put("Name",food_name.getText().toString());
         CartMap.put("Description",food_description.getText().toString());
+        CartMap.put("image",url);
         //dont do this.. because it will include the cedi sign and the string "Price". this will prevent you from doing arithemetic operations
        // CartMap.put("Price",food_price.getText().toString());
 
@@ -118,14 +124,16 @@ public class SelectedFoodDetails extends AppCompatActivity {
         CartMap.put("Time",saveCurrentTime);
         CartMap.put("Quantity",NumberButton.getNumber());
 
-        cartList.child("Users View").child(Prevalent.currentOnLineUser).child("Food_List")
+
+
+        cartList.child("Users View").child(userData).child("Food_List")
                 .child(foodkey).updateChildren(CartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task)
             {
                 if(task.isSuccessful())
                 {
-                    cartList.child("Admin View").child(Prevalent.currentOnLineUser).child("Food_List").child(foodkey)
+                    cartList.child("Admin View").child(userData).child("Food_List").child(foodkey)
                             .updateChildren(CartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task)

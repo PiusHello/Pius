@@ -1,27 +1,10 @@
-package com.example.food.OtherActivitiesClass;
-
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.example.food.R;
-
-public class ConfirmOrder extends AppCompatActivity {
-private EditText yourLocation,phoneNumber;
-private Button confirmButton;
-
-//Receiving the total price on the ConfirmOrder.
-    private String totalAmount = null;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_confirm_order);
-
-
-        yourLocation = (EditText) findViewById(R.id.enterLocation);
-        phoneNumber = (EditText) findViewById(R.id.phone);
-        confirmButton = (Button) findViewById(R.id.confirmButton);
-    }
-}
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:ns1="urn:oasis:names:tc:xliff:document:1.2">
+    <string msgid="4600421777120114993" name="abc_action_bar_home_description">"Vai alla home page"</string>
+    <string msgid="1594238315039666878" name="abc_action_bar_up_description">"Vai in alto"</string>
+    <string msgid="3588849162933574182" name="abc_action_menu_overflow_description">"Altre opzioni"</string>
+    <string msgid="4076576682505996667" name="abc_action_mode_done">"Fine"</string>
+    <string msgid="7468859129482906941" name="abc_activity_chooser_view_see_all">"Visualizza tutte"</string>
+    <string msgid="2031811694353399454" name="abc_activitychooserview_choose_application">"Scegli un\'applicazione"</string>
+    <string msgid="121134116657445385" name="abc_capital_off">"OFF"</string>
+    <string msgid="3405795526292276155" name="ab
