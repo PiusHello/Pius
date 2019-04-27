@@ -17,7 +17,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".TestActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".ConfirmOrder" />
         <activity android:name=".RegisterWithPhone" />
         <activity android:name=".FoodList" />

@@ -41,12 +41,14 @@ public class SelectedFoodDetails extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     String foodPrice;
+    String url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_food_details);
 
         foodkey = getIntent().getStringExtra("FoodID");
+         url = getIntent().getStringExtra("image");
         mDatabase = FirebaseDatabase.getInstance().getReference().child("FoodList");
 
 
@@ -74,7 +76,7 @@ public class SelectedFoodDetails extends AppCompatActivity {
             {
                 String foodName = (String) dataSnapshot.child("Name").getValue();
                 String foodDescription = (String) dataSnapshot.child("Description").getValue();
-                 foodPrice = (String) dataSnapshot.child("Price").getValue();
+                foodPrice = (String) dataSnapshot.child("Price").getValue();
                 String foodImage = (String) dataSnapshot.child("Image").getValue();
 
                 food_name.setText(foodName);
@@ -107,6 +109,7 @@ public class SelectedFoodDetails extends AppCompatActivity {
         CartMap.put("FoodID",foodkey);
         CartMap.put("Name",food_name.getText().toString());
         CartMap.put("Description",food_description.getText().toString());
+        CartMap.put("image",url);
         //dont do this.. because it will include the cedi sign and the string "Price". this will prevent you from doing arithemetic operations
        // CartMap.put("Price",food_price.getText().toString());
 

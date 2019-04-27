@@ -352,6 +352,8 @@ HomeActivity extends AppCompatActivity
 
         else if (id == R.id.nav_twitter)
         {
+            Intent aboutIntent = new Intent(HomeActivity.this,TestActivity.class);
+            startActivity(aboutIntent );
 
         }
 

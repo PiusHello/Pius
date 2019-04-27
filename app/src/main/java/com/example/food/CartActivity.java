@@ -109,8 +109,6 @@ checkout();
                                 holder.foodPrice.setText(" Price : " + model.getPrice());
                                 holder.date.setText(" Date :" + model.getDate());
                                 holder.time.setText(" Time : " + model.getTime());
-
-
                                 Picasso.get().load(model.getImage()).into(holder.image);
 
                                 //Calculations for each food at the cart level.
@@ -146,7 +144,7 @@ checkout();
                                                 {
                                                     cartList.child("Users View")
                                                             .child(Prevalent.currentOnLineUser)
-                                                            .child("FoodList")
+                                                            .child("Food_List")
                                                             .child(model.getFoodID())
                                                             .removeValue()
                                                             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -242,7 +240,7 @@ checkout();
                 //.setMeta(List<Meta>)
                 .withTheme(R.style.AppTheme)
                 .isPreAuth(false)
-                
+
                 //  .setSubAccounts(List<SubAccount>)
                 //.shouldDisplayFee(true)
                 .initialize();

@@ -175,6 +175,7 @@ public class FoodList extends AppCompatActivity {
 
                             //Sends the user to the FoodDetails when any food item is clicked under an
                             //category.
+                                            final String url=model.getImage();
                             final String food_key =getRef(position).getKey().toString();
                             holder.itemView.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -182,6 +183,7 @@ public class FoodList extends AppCompatActivity {
                                 {
                                     Intent intent = new Intent(FoodList.this,SelectedFoodDetails.class);
                                     intent.putExtra("FoodID",food_key);
+                                    intent.putExtra("image",url);
                                     startActivity(intent);
                                 }
                             });
