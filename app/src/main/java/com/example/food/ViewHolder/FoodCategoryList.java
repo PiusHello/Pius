@@ -14,6 +14,8 @@ public class FoodCategoryList extends RecyclerView.ViewHolder implements View.On
     public TextView FoodCategoryName;
     //FoodCategoryDescription;
     public ImageView FoodCategoryImage;
+    public TextView DeliveryDays;
+    public TextView DeliveryHours;
     public ItemClickListener listener;
 
     public FoodCategoryList(@NonNull View itemView) {
@@ -21,6 +23,8 @@ public class FoodCategoryList extends RecyclerView.ViewHolder implements View.On
 
         FoodCategoryImage = (ImageView) itemView.findViewById(R.id.food_category_image);
         FoodCategoryName = (TextView) itemView.findViewById(R.id.food_category_name);
+        DeliveryDays =(TextView) itemView.findViewById(R.id.deliveryDays);
+        DeliveryHours =(TextView) itemView.findViewById(R.id.deliveryTime);
         //FoodCategoryDescription = (TextView) itemView.findViewById(R.id.food_category_description);
     }
 
@@ -32,6 +36,6 @@ public class FoodCategoryList extends RecyclerView.ViewHolder implements View.On
     @Override
     public void onClick(View v)
     {
-      listener.onClick(v,getAdapterPosition(),false);
+        listener.onClick(v,getAdapterPosition(),false);
     }
 }

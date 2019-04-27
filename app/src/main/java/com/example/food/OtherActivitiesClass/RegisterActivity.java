@@ -1,4 +1,4 @@
-package com.example.food;
+package com.example.food.OtherActivitiesClass;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.food.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -57,7 +58,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-              CreateNewAccount();
+                CreateNewAccount();
             }
         });
     }
@@ -66,6 +67,8 @@ public class RegisterActivity extends AppCompatActivity {
     {
         Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
         startActivity(intent);
+        finish();
+
     }
 
     private void CreateNewAccount()
@@ -98,10 +101,6 @@ public class RegisterActivity extends AppCompatActivity {
         else if(!email.contains("@"))
         {
             Toast.makeText(RegisterActivity.this,"Email Is Invalid, Add The @ Sign",Toast.LENGTH_SHORT).show();
-        }
-        else if(!email.contains("gmail.com") && !email.contains("yahoo.com") && !email.contains("icloud.com"))
-        {
-            Toast.makeText(RegisterActivity.this,"Email Is Invalid",Toast.LENGTH_SHORT).show();
         }
 
         else if(TextUtils.isEmpty(password))
@@ -136,7 +135,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 currentUser.child("Username").setValue(name);
                                 currentUser.child("Email").setValue(email);
-                                currentUser.child("Password").setValue(password);
+                               // currentUser.child("Password").setValue(password);
 
                                 loadingBox.dismiss();
                                 Toast.makeText(RegisterActivity.this,"Registration Was Successful",Toast.LENGTH_SHORT).show();
@@ -147,7 +146,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 startActivity(homeIntent);
                                 finish();
 
-                             }
+                            }
 
 
                             else

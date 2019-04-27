@@ -1,11 +1,11 @@
-package com.example.food;
+package com.example.food.OtherActivitiesClass;
 
+import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -24,15 +24,19 @@ import android.widget.TextView;
 
 import com.example.food.Model.FoodCategory;
 import com.example.food.Prevalent.Prevalent;
+import com.example.food.R;
+import com.example.food.SearchFoodActivity;
 import com.example.food.ViewHolder.FoodCategoryList;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.common.internal.service.Common;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nex3z.notificationbadge.NotificationBadge;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -49,6 +53,8 @@ HomeActivity extends AppCompatActivity
     RecyclerView.LayoutManager layoutManager;
     String currentUserID,currentUserEmail;
 
+    public NotificationBadge badge;
+
 
 
     @Override
@@ -59,9 +65,9 @@ HomeActivity extends AppCompatActivity
         recyclerView = findViewById(R.id.recycler_menu);
         recyclerView.setHasFixedSize(true);
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-//        layoutManager = new LinearLayoutManager(this);
-//         recyclerView.setLayoutManager(layoutManager);
+       //recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+       layoutManager = new LinearLayoutManager(this);
+       recyclerView.setLayoutManager(layoutManager);
 
         Paper.init(this);
 
@@ -78,16 +84,16 @@ HomeActivity extends AppCompatActivity
 
 
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(HomeActivity.this,CartActivity.class);
-                startActivity(intent);
-
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Intent intent = new Intent(HomeActivity.this,CartActivity.class);
+//                startActivity(intent);
+//
+//            }
+//        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -99,35 +105,6 @@ HomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-      /*  String username = userNameFromEmail(currentUserID);
-
-         View headerView = navigationView.getHeaderView(0);
-         final TextView profileName = headerView.findViewById(R.id.user_profile_name);
-         final CircleImageView profileImage = headerView.findViewById(R.id.profile_image);
-
-         profileName.setText(username);
-
-         databaseReference.child(currentUserID).addValueEventListener(new ValueEventListener() {
-             @Override
-             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                 if(dataSnapshot.exists())
-                 {
-                     String fullname = dataSnapshot.child("Username").getValue().toString();
-
-                     profileName.setText(fullname);
-                 }
-
-             }
-
-             @Override
-             public void onCancelled(@NonNull DatabaseError databaseError) {
-
-             }
-         });
-         */
-
-
         String username = userNameFromEmail(currentUserEmail);
 
         View headerView = navigationView.getHeaderView(0);
@@ -135,7 +112,7 @@ HomeActivity extends AppCompatActivity
         final CircleImageView profileImage = headerView.findViewById(R.id.profile_image);
 
         profileName.setText(username);
-        Picasso.get().load(Prevalent.currentOnLineUser).placeholder(R.drawable.background).into(profileImage);
+        Picasso.get().load(Prevalent.UserEmailKey).placeholder(R.drawable.background).into(profileImage);
 
         databaseReference.child(currentUserID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -185,6 +162,8 @@ HomeActivity extends AppCompatActivity
                     protected void onBindViewHolder(@NonNull FoodCategoryList holder, int position, @NonNull FoodCategory model)
                     {
                           holder.FoodCategoryName.setText(model.getCategoryName());
+                          holder.DeliveryDays.setText(model.getDeliveryDays());
+                          holder.DeliveryHours.setText(model.getDeliveryHours());
                          // holder.FoodCategoryName.setText(model.getCategoryDescription());
                         Picasso.get().load(model.getCategoryImage()).into(holder.FoodCategoryImage);
 
@@ -195,6 +174,7 @@ HomeActivity extends AppCompatActivity
                                 Intent intent = new Intent(HomeActivity.this,FoodList.class);
                                 intent.putExtra("CategoryID",food_key);
                                 startActivity(intent);
+
                             }
                         });
                     }
@@ -215,58 +195,6 @@ HomeActivity extends AppCompatActivity
         adapter.startListening();
     }
 
-        /*
-    @Override
-    protected void onStart()
-    {
-        super.onStart();
-        FirebaseRecyclerOptions<Food> options =
-                new FirebaseRecyclerOptions.Builder<Food>()
-                .setQuery(databaseReference,Food.class)
-
-        final FirebaseRecyclerAdapter<Food, FoodViewHolder> adapter =
-                new FirebaseRecyclerAdapter<Food, FoodViewHolder>(options) {
-                .build();
-                     @Override
-                    protected void onBindViewHolder(@NonNull FoodViewHolder holder, final int position, @NonNull final Food model)
-                    {
-                     holder.foodName.setText(model.getName());
-                     holder.foodDescription.setText(model.getDescription());
-                     holder.foodPrice.setText(" Price " + model.getPrice());
-                     //Picasso.get().load(model.getImage()).into(holder.foodImage);
-
-                        Picasso.with(HomeActivity.this).load(model.getImage()).into(holder.foodImage);
-
-
-                        final String food_key =getRef(position).getKey().toString();
-                      holder.itemView.setOnClickListener(new View.OnClickListener() {
-                         @Override
-                          public void onClick(View v) {
-                              Intent intent = new Intent(HomeActivity.this,SelectedFoodDetails.class);
-                              intent.putExtra("FoodID",food_key);
-                              startActivity(intent);
-                           }
-                    });
-
-                    }
-
-                    @NonNull
-                    @Override
-                    public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i)
-                    {
-                        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.food_list_item,viewGroup,false);
-                        FoodViewHolder holder =new FoodViewHolder(view);
-                        return holder;
-                    }
-                };
-
-        recyclerView.setAdapter(adapter);
-        adapter.startListening();
-
-
-    }
-    */
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -280,9 +208,35 @@ HomeActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
+        getMenuInflater().inflate(R.menu.menu_action_bar, menu);
+        View view = menu.findItem(R.id.cart_menu).getActionView();
+       // badge = (NotificationBadge) view.findViewById(R.id.badge);
+      //  NotificationBadge  badge = (NotificationBadge) view.findViewById(R.id.badge);
+        //updateCartCount();
         return true;
     }
+
+    //This method will be called when the cart is been updated
+//    private void updateCartCount()
+//    {
+//        if(badge == null) return;
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run()
+//            {
+//                if(Common.cartRepository.countCartItems() == 0)
+//                    badge.setVisibility(View.INVISIBLE);
+//
+//                else
+//                {
+//                    badge.setVisibility(View.VISIBLE);
+//                    badge.setText(String.valueOf(Common.cartRepository.countCartItem()));
+//                }
+//            }
+//
+//
+//        });
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -292,8 +246,8 @@ HomeActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(HomeActivity.this,SettingActivity.class);
+        if (id == R.id.cart_menu) {
+            Intent intent = new Intent(HomeActivity.this,CartActivity.class);
             startActivity(intent);
 //            return true;
         }
@@ -324,6 +278,12 @@ HomeActivity extends AppCompatActivity
 
         }
 
+        else if (id == R.id.searchParticularFood)
+        {
+            Intent intent = new Intent(HomeActivity.this, SearchFoodActivity.class);
+            startActivity(intent);
+        }
+
         else if (id == R.id.nav_setting)
         {
              Intent settingIntent = new Intent(HomeActivity.this,SettingActivity.class);
@@ -332,7 +292,7 @@ HomeActivity extends AppCompatActivity
 
         else if (id == R.id.nav_about)
         {
-            Intent aboutIntent = new Intent(HomeActivity.this,AboutActivity.class);
+            Intent aboutIntent = new Intent(HomeActivity.this, AboutActivity.class);
             startActivity(aboutIntent );
         }
 
@@ -358,5 +318,14 @@ HomeActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //Adding onResume method
+
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+       // updateCartCount();
     }
 }
