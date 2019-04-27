@@ -20,7 +20,7 @@
             android:id="@+id/r1"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorOrange"
             android:layout_alignParentTop="true">
 
 
@@ -46,11 +46,22 @@
             android:layout_marginTop="1dp"
             android:layout_marginEnd="1dp"
             android:layout_marginRight="1dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
 
         </android.support.v7.widget.RecyclerView>
-
+        <TextView
+            android:id="@+id/CurrentCartStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_below="@+id/firsttime"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="1dp"
+            android:text="You have no item in the cart"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="18dp" />
 
         <LinearLayout
             android:id="@+id/l1"
