@@ -50,6 +50,7 @@ public class CartActivity extends AppCompatActivity {
     ArrayList<Double> cartprice=new ArrayList();
     ArrayList<Integer> cartquantity=new ArrayList();
     Button checkout;
+    private TextView cartStatus;
 
     private String user_id;
 
@@ -66,6 +67,7 @@ public class CartActivity extends AppCompatActivity {
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        cartStatus = (TextView) findViewById(R.id.CurrentCartStatus);
 checkout();
         //proceedButton = (Button) findViewById(R.id.proceedButton);
         totalAmount = (TextView) findViewById(R.id.totalprice);
@@ -81,6 +83,8 @@ checkout();
     @Override
     protected void onStart() {
         super.onStart();
+
+
 
         totalAmount.setText("Total Price : " + String.valueOf(OverRawTotalPrice));
         //final DatabaseReference cartList = FirebaseDatabase.getInstance().getReference().child("Cart List");
@@ -101,7 +105,7 @@ checkout();
                 holder.time.setText(" Time : " + model.getTime());
                 Picasso.get().load(model.getImage()).into(holder.image);
 
-                //Picasso.get().load(model.getImage()).into(holder.image);
+
 
                 //users will be able to view the option on each every cart
                 holder.itemView.setOnClickListener(new View.OnClickListener() {

@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         signin = (Button) findViewById(R.id.sign_in_button);
         signup = (Button) findViewById(R.id.sign_up_button);
-        signInWithPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
+        //signInWithPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
 
         firebaseAuth =FirebaseAuth.getInstance();
         myDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
@@ -53,15 +53,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent loginIntent = new Intent(MainActivity.this,LoginActivity.class);
                 startActivity(loginIntent);
+
             }
         });
 
-        signInWithPhoneNumber.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                phoneRegistrationActivity();
-            }
-        });
+//        signInWithPhoneNumber.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                phoneRegistrationActivity();
+//            }
+//        });
 
 
         signup.setOnClickListener(new View.OnClickListener() {
