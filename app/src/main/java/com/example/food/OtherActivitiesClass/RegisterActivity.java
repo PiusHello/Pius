@@ -1,5 +1,6 @@
 package com.example.food;
 
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.food.OtherActivitiesClass.HomeActivity;
+import com.example.food.OtherActivitiesClass.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -64,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void GoToLoginActivity()
     {
-        Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -142,7 +145,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 Toast.makeText(RegisterActivity.this,"Registration Was Successful",Toast.LENGTH_SHORT).show();
 
                                 loadingBox.dismiss();
-                                Intent homeIntent = new Intent(RegisterActivity.this,HomeActivity.class);
+                                Intent homeIntent = new Intent(RegisterActivity.this, HomeActivity.class);
                                 homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(homeIntent);
                                 finish();

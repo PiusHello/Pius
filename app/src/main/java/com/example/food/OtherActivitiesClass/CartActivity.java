@@ -1,4 +1,4 @@
-package com.example.food;
+package com.example.food.OtherActivitiesClass;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.food.Model.Cart;
 import com.example.food.Prevalent.Prevalent;
+import com.example.food.R;
 import com.example.food.ViewHolder.CartViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -34,7 +35,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
-import com.example.food.Model.sum;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
@@ -50,6 +50,9 @@ public class CartActivity extends AppCompatActivity {
     ArrayList<Double> cartprice=new ArrayList();
     ArrayList<Integer> cartquantity=new ArrayList();
     Button checkout;
+    private TextView cartStatus;
+
+    private String user_id;
 
     private double OverRawTotalPrice = 0;
 
@@ -58,30 +61,20 @@ public class CartActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-checkout=findViewById(R.id.checkout);
+        checkout=findViewById(R.id.checkout);
         recyclerView =findViewById(R.id.cartList);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        cartStatus = (TextView) findViewById(R.id.CurrentCartStatus);
 checkout();
-        proceedButton = (Button) findViewById(R.id.proceedButton);
+        //proceedButton = (Button) findViewById(R.id.proceedButton);
         totalAmount = (TextView) findViewById(R.id.totalprice);
         cartFoodPicture = (ImageView)findViewById(R.id.cartFoodImage);
 
         //This will execute when the Proceed button in the cart activity is Clicked.
-        proceedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
 
-
-             Intent intent = new Intent(CartActivity.this,ConfirmOrder.class);
-             intent.putExtra("Total Price ", String.valueOf(OverRawTotalPrice));
-             startActivity(intent);
-                finish();
-            }
-        });
 
 
         cartList = FirebaseDatabase.getInstance().getReference("Cart List");
@@ -91,83 +84,93 @@ checkout();
     protected void onStart() {
         super.onStart();
 
+
+
         totalAmount.setText("Total Price : " + String.valueOf(OverRawTotalPrice));
         //final DatabaseReference cartList = FirebaseDatabase.getInstance().getReference().child("Cart List");
-        FirebaseRecyclerOptions<Cart> options =
+        final FirebaseRecyclerOptions<Cart> options =
                 new FirebaseRecyclerOptions.Builder<Cart>()
                 .setQuery(cartList.child("Users View")
-                        .child(Prevalent.currentOnLineUser).child("Food_List"),Cart.class)
+                        .child(user_id).child("Food_List"),Cart.class)
                         .build();
 
         FirebaseRecyclerAdapter<Cart, CartViewHolder> adapter
                 = new FirebaseRecyclerAdapter<Cart, CartViewHolder>(options) {
             @Override
-            protected void onBindViewHolder(@NonNull CartViewHolder holder, int position, @NonNull final Cart model)
-            {
-                                holder.foodName.setText(" Food : " + model.getName());
-                                holder.foodQuantity.setText(" Quantity : " + model.getQuantity());
-                                holder.foodPrice.setText(" Price : " + model.getPrice());
-                                holder.date.setText(" Date :" + model.getDate());
-                                holder.time.setText(" Time : " + model.getTime());
-                                Picasso.get().load(model.getImage()).into(holder.image);
+            protected void onBindViewHolder(@NonNull CartViewHolder holder, int position, @NonNull final Cart model) {
+                holder.foodName.setText(" Food : " + model.getName());
+                holder.foodQuantity.setText(" Quantity : " + model.getQuantity());
+                holder.foodPrice.setText(" Price : " + model.getPrice());
+                holder.date.setText(" Date :" + model.getDate());
+                holder.time.setText(" Time : " + model.getTime());
+                Picasso.get().load(model.getImage()).into(holder.image);
 
-                                //Calculations for each food at the cart level.
-                                //int onlyOneItemPrice = (Integer.valueOf(model.getPrice())) * Integer.valueOf(model.getQuantity());
-                                //OverRawTotalPrice = OverRawTotalPrice + onlyOneItemPrice;
 
-                             //  double onlyOneItemPrice = ((Double.valueOf(model.getPrice()))) * Double.parseDouble(model.getQuantity());
-                              //  OverRawTotalPrice = OverRawTotalPrice + onlyOneItemPrice;
 
-                                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v)
-                                    {
-                                        CharSequence options[] = new CharSequence[]
+                //users will be able to view the option on each every cart
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        //Array list of options
+                        CharSequence[] options;
+                        options = new CharSequence[]
+                                {
+                                        //Lists of items in the option menu
+                                        "Edit Cart",
+                                        "Delete Cart Item"
+                                };
+                        final AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
+                        builder.setTitle("Options");
+                        builder.setItems(options, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                //when a user select edit cart from the option he / she will be
+                                //able to increase or decrease the cart quantity
+                                if(which == 0)
+                                {
+                                    //Will direct the user from the cart activity to SelectedFoodActivity.class
+                                    //java file, using the id of that food
+                                    Intent intent = new Intent(CartActivity.this,SelectedFoodDetails.class);
+                                    intent.putExtra("FoodID",model.getFoodID());
+                                    startActivity(intent);
+                                    finish();
+
+                                }
+                                if(which==1)
+                                {
+                                    //Again when a user select Delete from the option, will be able to delete
+                                    //item from the cart.
+                                    cartList.child("Users View")//At the database level from the CartList
+                                            .child(user_id)
+                                            .child("Food_List")//From the child of Cart List will be updated
+                                            .child(model.getFoodID())
+                                            .removeValue()//Method for removing the item from the cart
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task)
                                                 {
-                                                        "Edit Cart",
-                                                        "Delete Cart Item"
-                                                };
-                                        final AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
-                                        builder.setTitle("Options");
-                                        builder.setItems(options, new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which)
-                                            {
-                                                if(which == 0)
-                                                {
-                                                    Intent intent = new Intent(CartActivity.this,SelectedFoodDetails.class);
-                                                     intent.putExtra("FoodID",model.getFoodID());
-                                                     startActivity(intent);
-
+                                                    //If the task was successful print a Toast message to the user
+                                                    if(task.isSuccessful())
+                                                    {
+                                                        Toast.makeText(CartActivity.this,"One Item has Been Remove From The Cart",Toast.LENGTH_LONG).show();
+                                                    //After the which, user will be directed to the CartActivity class
+                                                        Intent intent = new Intent(CartActivity.this,CartActivity.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    }
                                                 }
-                                                if(which==1)
-                                                {
-                                                    cartList.child("Users View")
-                                                            .child(Prevalent.currentOnLineUser)
-                                                            .child("Food_List")
-                                                            .child(model.getFoodID())
-                                                            .removeValue()
-                                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<Void> task)
-                                                                {
-                                                                    if(task.isSuccessful())
-                                                                    {
-                                                                        Toast.makeText(CartActivity.this,"One Item has Been Remove From The Cart",Toast.LENGTH_LONG).show();
+                                            });
 
-                                                                        Intent intent = new Intent(CartActivity.this,HomeActivity.class);
-                                                                        startActivity(intent);
-                                                                    }
-                                                                }
-                                                            });
+                                }
 
-                                                }
+                            }
+                        });
+                        builder.show();
+                    }
+                });
 
-                                            }
-                                        });
-                                        builder.show();
-                                    }
-                                });
             }
 
             @NonNull
@@ -185,17 +188,20 @@ checkout();
 
     public void checkout(){
         FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
+        user_id = firebaseAuth.getUid();
         final String email=firebaseAuth.getCurrentUser().getEmail();
         cartList = FirebaseDatabase.getInstance().getReference("Cart List");
         cartList.child("Users View")
-                .child(Prevalent.currentOnLineUser).child("Food_List").addValueEventListener(new ValueEventListener() {
+                .child(user_id).child("Food_List").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-           float total=0;
-           //clear the arraylist
-              cartprice.clear();
-              cartquantity.clear();
+                float total=0;
+                //clear the arraylist
+                cartprice.clear();
+                cartquantity.clear();
+
+
 
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -204,17 +210,22 @@ checkout();
                     cartprice.add(Double.valueOf(mycart.getPrice()));
 
                 }
+                //A for loop that will increase the quantity and also the price as well
+                //That is,if quantity increase, the number wil multiplied by the item price
                 for(int i=0;i<cartquantity.size();i++){
                     total+=cartprice.get(i)*cartquantity.get(i);
 
                 }
-
+                //Print the total price for user to view.
                 checkout.setText("total: "+total+" Checkout");
                 final float finalTotal = total;
+                //Here,users will be sent to the payment section of the app.
+
                 checkout.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
 
+        //An Instance from the Rave class
         new RavePayManager(CartActivity.this).setAmount(finalTotal)
                 .setCountry("GH")
                 .setCurrency("GHS")
@@ -224,9 +235,9 @@ checkout();
                 //.setNarration("")
 
                 //replace with your public key from the flutterwave dashboard
-                .setPublicKey("FLWPUBK-eeb47cf2d83a9775687ed6490c2b3091-X")
+                .setPublicKey("FLWPUBK-bfe00f7d1b2c64566bbea939c946063d-X")
                 //replace with your ecncryption key from the flutterwave dashboard
-                .setEncryptionKey("2b2691f610fe631baeb98c8c")
+                .setEncryptionKey("75d50f227fec111a9adbf45d")
                 //here a random string is generated for txref
                 .setTxRef(generateTXREF())
                 .acceptAccountPayments(true)
@@ -245,7 +256,7 @@ checkout();
                 //.shouldDisplayFee(true)
                 .initialize();
     }
-});
+                });
             }
 
             @Override

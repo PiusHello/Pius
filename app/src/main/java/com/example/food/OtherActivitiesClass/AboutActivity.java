@@ -1,7 +1,9 @@
-package com.example.food;
+package com.example.food.OtherActivitiesClass;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.food.R;
 
 public class AboutActivity extends AppCompatActivity {
 

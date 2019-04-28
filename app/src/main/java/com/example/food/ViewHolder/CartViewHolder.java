@@ -11,7 +11,7 @@ import com.example.food.R;
 
 public class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
 {
-   public TextView foodName;
+    public TextView foodName;
     public TextView foodQuantity;
     public TextView foodPrice;
     public TextView date;

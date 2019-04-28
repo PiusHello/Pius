@@ -29,7 +29,7 @@ public class FoodViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     public void setItemClickListener(ItemClickListener listener)
     {
-     this.itemClickListener=listener;
+        this.itemClickListener=listener;
     }
 
     @Override

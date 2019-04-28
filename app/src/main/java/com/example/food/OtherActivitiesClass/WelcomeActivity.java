@@ -1,12 +1,14 @@
-package com.example.food;
+package com.example.food.OtherActivitiesClass;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 
-public class WelcomeActivity extends AppCompatActivity {
+import com.example.food.R;
 
+
+public class WelcomeActivity extends Activity {
     private static int SPLASH_TIME_OUT = 5000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,5 +23,24 @@ public class WelcomeActivity extends AppCompatActivity {
                 finish();
             }
         },SPLASH_TIME_OUT);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+
+
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
     }
 }

@@ -1,4 +1,4 @@
-package com.example.food;
+package com.example.food.OtherActivitiesClass;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.food.Prevalent.Prevalent;
+import com.example.food.R;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -58,7 +59,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-         mStorage = FirebaseStorage.getInstance().getReference().child("Profile_Pictures");
+        mStorage = FirebaseStorage.getInstance().getReference().child("Profile_Pictures");
         profileImage = (CircleImageView) findViewById(R.id.setting_profile_image);
         closeSetting = (TextView) findViewById(R.id.close_setting_button);
         profileChange = (TextView) findViewById(R.id.profile_change);
@@ -120,7 +121,7 @@ public class SettingActivity extends AppCompatActivity {
 
         // userMap.put("Image",ImageUri);
 
-      //  progressDialog.dismiss();
+        //  progressDialog.dismiss();
 
         startActivity(new Intent(SettingActivity.this,HomeActivity.class));
         Toast.makeText(SettingActivity.this,"Profile Was Updated Successfully",Toast.LENGTH_SHORT);
@@ -148,7 +149,7 @@ public class SettingActivity extends AppCompatActivity {
 
             if(requestCode == RESULT_OK)
             {
-                 ImageUri = result.getUri();
+                ImageUri = result.getUri();
                 profileImage.setImageURI(ImageUri);
             }
         }

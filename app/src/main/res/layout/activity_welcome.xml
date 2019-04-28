@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WelcomeActivity"
-    android:background="@mipmap/ic_welcome">
 
-</RelativeLayout>
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:layout_marginTop="0dp"
+    android:paddingBottom="16dp"
+    tools:context=".OtherActivitiesClass.WelcomeActivity">
+
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+    <pl.droidsonroids.gif.GifTextView
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_welcome"
+        />
+
+
+</FrameLayout>

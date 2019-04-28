@@ -2,10 +2,10 @@ package com.example.food.Model;
 
 public class sum {
     int quantity;
-    float price;
+    double price;
 
 
-    public sum(int quantity, float price) {
+    public sum(int quantity, double price) {
         this.quantity = quantity;
         this.price = price;
 
@@ -15,7 +15,7 @@ public class sum {
         return quantity;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 

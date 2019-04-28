@@ -1,16 +1,15 @@
 package com.example.food.Model;
 
 public class Users {
-    public String Username, Email, Password, Image, Location;
+    public String Username, Email, Image, Location;
 
     public Users() {
 
     }
 
-    public Users(String username, String email, String password, String image, String location) {
+    public Users(String username, String email, String image, String location) {
         Username = username;
         Email = email;
-        Password = password;
         Image = image;
         Location = location;
     }
@@ -29,14 +28,6 @@ public class Users {
 
     public void setEmail(String email) {
         Email = email;
-    }
-
-    public String getPassword() {
-        return Password;
-    }
-
-    public void setPassword(String password) {
-        Password = password;
     }
 
     public String getImage() {

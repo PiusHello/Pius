@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.example.food.OtherActivitiesClass.HomeActivity;
 import com.example.food.Prevalent.Prevalent;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -137,7 +138,7 @@ public class SelectedFoodDetails extends AppCompatActivity {
                             if(task.isSuccessful())
                             {
                                 Toast.makeText(SelectedFoodDetails.this,"Food Has Being Added To Cart",Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(SelectedFoodDetails.this,HomeActivity.class);
+                                Intent intent = new Intent(SelectedFoodDetails.this, HomeActivity.class);
                                 startActivity(intent);
                             }
                         }

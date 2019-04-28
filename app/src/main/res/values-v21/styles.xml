@@ -1,15 +1,39 @@
 <resources>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
-        <item name="OTPButtonStyle">@style/otpBtnStyle</item>
-        <item name="PayButtonStyle">@style/payBtnStyle</item>
-        <item name="PinButtonStyle">@style/pinButtonStyle</item>
-        <item name="OTPHeaderStyle">@style/otpHeaderStyle</item>
-        <item name="TabLayoutStyle">@style/tabLayoutStyle</item>
-        <item name="PinHeaderStyle">@style/pinHeaderStyle</item>
-        <item name="SavedCardButtonStyle">@style/svdCardsBtnStyle</item>
-    </style>
+  <!-- Base application theme. -->
+  <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Customize your theme here. -->
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="OTPButtonStyle">@style/otpBtnStyle</item>
+    <item name="PayButtonStyle">@style/payBtnStyle</item>
+    <item name="PinButtonStyle">@style/pinButtonStyle</item>
+    <item name="OTPHeaderStyle">@style/otpHeaderStyle</item>
+    <item name="TabLayoutStyle">@style/tabLayoutStyle</item>
+    <item name="PinHeaderStyle">@style/pinHeaderStyle</item>
+    <item name="SavedCardButtonStyle">@style/svdCardsBtnStyle</item>
+  </style>
+
+  <style name="AppTheme.NoActionBar">
+    <item name="windowActionBar">false</item>
+    <item name="windowNoTitle">true</item>
+  </style>
+
+  <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+  <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+  <style name="FullscreenTheme" parent="AppTheme">
+    <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+    <item name="android:windowActionBarOverlay">true</item>
+    <item name="android:windowBackground">@null</item>
+    <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+    <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+  </style>
+
+  <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+    <item name="android:background">@color/black_overlay</item>
+  </style>
+
 </resources>
