@@ -1,4 +1,4 @@
-package com.example.food;
+package com.example.food.OtherActivitiesClass;
 
 
 import android.app.ProgressDialog;
@@ -13,8 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.food.OtherActivitiesClass.HomeActivity;
-import com.example.food.OtherActivitiesClass.LoginActivity;
+import com.example.food.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;

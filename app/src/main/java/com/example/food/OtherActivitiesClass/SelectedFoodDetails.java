@@ -1,4 +1,5 @@
-package com.example.food;
+package com.example.food.OtherActivitiesClass;
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
-import com.example.food.OtherActivitiesClass.HomeActivity;
 import com.example.food.Prevalent.Prevalent;
+import com.example.food.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;

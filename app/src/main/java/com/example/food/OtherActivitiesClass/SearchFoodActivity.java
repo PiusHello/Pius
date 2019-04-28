@@ -1,10 +1,9 @@
-package com.example.food;
+package com.example.food.OtherActivitiesClass;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,10 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.food.Model.Food;
-import com.example.food.OtherActivitiesClass.FoodList;
-import com.example.food.OtherActivitiesClass.HomeActivity;
 
-import com.example.food.ViewHolder.FoodCategoryList;
+import com.example.food.R;
 import com.example.food.ViewHolder.FoodViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -92,7 +89,7 @@ public class SearchFoodActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v)
                             {
-                                Intent intent = new Intent(SearchFoodActivity.this, com.example.food.SelectedFoodDetails.class);
+                                Intent intent = new Intent(SearchFoodActivity.this, SelectedFoodDetails.class);
                                 intent.putExtra("FoodID",food_key);
                                 intent.putExtra("image",url);
                                 startActivity(intent);

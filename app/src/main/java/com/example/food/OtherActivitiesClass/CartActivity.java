@@ -9,16 +9,24 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.food.Model.Cart;
-import com.example.food.Prevalent.Prevalent;
 import com.example.food.R;
 import com.example.food.ViewHolder.CartViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -34,10 +42,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -46,11 +59,14 @@ public class CartActivity extends AppCompatActivity {
     private Button proceedButton;
     private TextView totalAmount;
     private ImageView cartFoodPicture;
+    String json;
     DatabaseReference cartList;
     ArrayList<Double> cartprice=new ArrayList();
     ArrayList<Integer> cartquantity=new ArrayList();
+    final ArrayList<String> items=new ArrayList<>();
     Button checkout;
     private TextView cartStatus;
+    final ArrayList<String> location = new ArrayList<>();
 
     private String user_id;
 
@@ -68,6 +84,7 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         cartStatus = (TextView) findViewById(R.id.CurrentCartStatus);
+
 checkout();
         //proceedButton = (Button) findViewById(R.id.proceedButton);
         totalAmount = (TextView) findViewById(R.id.totalprice);
@@ -132,7 +149,7 @@ checkout();
                                 {
                                     //Will direct the user from the cart activity to SelectedFoodActivity.class
                                     //java file, using the id of that food
-                                    Intent intent = new Intent(CartActivity.this,SelectedFoodDetails.class);
+                                    Intent intent = new Intent(CartActivity.this, SelectedFoodDetails.class);
                                     intent.putExtra("FoodID",model.getFoodID());
                                     startActivity(intent);
                                     finish();
@@ -181,12 +198,23 @@ checkout();
                  return holder;
             }
         };
+
+
         recyclerView.setAdapter(adapter);
         adapter.startListening();
-
+//        if (adapter.getSnapshots().isEmpty()){
+//            cartStatus.setVisibility(View.VISIBLE);
+//            recyclerView.setVisibility(View.GONE);
+//        }
+//        else {
+//            cartStatus.setVisibility(View.GONE);
+//            recyclerView.setVisibility(View.VISIBLE);
+//        }
     }
 
     public void checkout(){
+
+
         FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
         user_id = firebaseAuth.getUid();
         final String email=firebaseAuth.getCurrentUser().getEmail();
@@ -196,23 +224,32 @@ checkout();
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                 float total=0;
                 //clear the arraylist
                 cartprice.clear();
                 cartquantity.clear();
+                items.clear();
 
 
 
 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
                     Cart mycart = snapshot.getValue(Cart.class);
+                    items.add(mycart.getName()+" "+"quantity:" +mycart.getQuantity());
+
+                    json = new Gson().toJson(mycart);
                     cartquantity.add(Integer.valueOf(mycart.getQuantity()));
                     cartprice.add(Double.valueOf(mycart.getPrice()));
 
+
                 }
+
                 //A for loop that will increase the quantity and also the price as well
                 //That is,if quantity increase, the number wil multiplied by the item price
                 for(int i=0;i<cartquantity.size();i++){
+
                     total+=cartprice.get(i)*cartquantity.get(i);
 
                 }
@@ -224,37 +261,63 @@ checkout();
                 checkout.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View v) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
+        builder.setTitle("Enter you Location");
 
+// Set up the input
+        final EditText input = new EditText(CartActivity.this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                location.clear();
+                location.add(input.getText().toString());
+                new RavePayManager(CartActivity.this).setAmount(finalTotal)
+                        .setCountry("GH")
+                        .setCurrency("GHS")
+                        .setEmail(email)
+                        .setfName(userNameFromEmail(email))
+                        //.setlName("billa")
+                        //.setNarration("")
+
+                        //replace with your public key from the flutterwave dashboard
+                        .setPublicKey("FLWPUBK-bfe00f7d1b2c64566bbea939c946063d-X")
+                        //replace with your ecncryption key from the flutterwave dashboard
+                        .setEncryptionKey("75d50f227fec111a9adbf45d")
+                        //here a random string is generated for txref
+                        .setTxRef(generateTXREF())
+                        .acceptAccountPayments(true)
+                        .acceptCardPayments(true)
+                        .acceptMpesaPayments(false)
+                        .acceptAchPayments(false)
+                        .acceptGHMobileMoneyPayments(true)
+                        .acceptUgMobileMoneyPayments(false)
+                        .onStagingEnv(true)
+                        .allowSaveCardFeature(true)
+                        //.setMeta(List<Meta>)
+                        .withTheme(R.style.AppTheme)
+                        .isPreAuth(false)
+
+                        //  .setSubAccounts(List<SubAccount>)
+                        //.shouldDisplayFee(true)
+                        .initialize();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
         //An Instance from the Rave class
-        new RavePayManager(CartActivity.this).setAmount(finalTotal)
-                .setCountry("GH")
-                .setCurrency("GHS")
-                .setEmail(email)
-                .setfName(userNameFromEmail(email))
-                //.setlName("billa")
-                //.setNarration("")
 
-                //replace with your public key from the flutterwave dashboard
-                .setPublicKey("FLWPUBK-bfe00f7d1b2c64566bbea939c946063d-X")
-                //replace with your ecncryption key from the flutterwave dashboard
-                .setEncryptionKey("75d50f227fec111a9adbf45d")
-                //here a random string is generated for txref
-                .setTxRef(generateTXREF())
-                .acceptAccountPayments(true)
-                .acceptCardPayments(true)
-                .acceptMpesaPayments(false)
-                .acceptAchPayments(false)
-                .acceptGHMobileMoneyPayments(true)
-                .acceptUgMobileMoneyPayments(false)
-                .onStagingEnv(true)
-                .allowSaveCardFeature(true)
-                //.setMeta(List<Meta>)
-                .withTheme(R.style.AppTheme)
-                .isPreAuth(false)
-
-                //  .setSubAccounts(List<SubAccount>)
-                //.shouldDisplayFee(true)
-                .initialize();
     }
                 });
             }
@@ -274,6 +337,40 @@ checkout();
             if (resultCode == RavePayActivity.RESULT_SUCCESS) {
                 //if payment successfull show a success page containing the order details
                 Toast.makeText(this, "SUCCESS " + message, Toast.LENGTH_SHORT).show();
+                final RequestQueue queue = Volley.newRequestQueue(CartActivity.this);
+                final String url="https://imartgh.com/food/v1/sendmail";
+                queue.start();
+
+                Map<String, ArrayList<String>> map = new HashMap<>();
+                map.put("param", items);
+                map.put("location",location);
+
+
+
+
+
+
+                Log.v("tested",map.toString());
+                JsonObjectRequest jsObjRequest = new
+                        JsonObjectRequest(Request.Method.POST,
+                        url,
+                        new JSONObject(map),
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(final JSONObject response) {
+                                Log.v("tested_response",response.toString());
+
+
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                    }
+                });
+
+                queue.add(jsObjRequest);
+
             }
             else if (resultCode == RavePayActivity.RESULT_ERROR) {
                 //if payment wasnt successfull show error page

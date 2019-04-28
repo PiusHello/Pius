@@ -1,16 +1,13 @@
 package com.example.food.OtherActivitiesClass;
 
-import android.app.Notification;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -25,11 +22,10 @@ import android.widget.TextView;
 import com.example.food.Model.FoodCategory;
 import com.example.food.Prevalent.Prevalent;
 import com.example.food.R;
-import com.example.food.SearchFoodActivity;
+import com.example.food.TestActivity;
 import com.example.food.ViewHolder.FoodCategoryList;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.gms.common.internal.service.Common;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -278,7 +274,7 @@ HomeActivity extends AppCompatActivity
 
         }
 
-        else if (id == R.id.searchParticularFood)
+        else if (id == R.id.checkout)
         {
             Intent intent = new Intent(HomeActivity.this, SearchFoodActivity.class);
             startActivity(intent);
@@ -312,7 +308,7 @@ HomeActivity extends AppCompatActivity
 
         else if (id == R.id.nav_twitter)
         {
-            Intent aboutIntent = new Intent(HomeActivity.this,TestActivity.class);
+            Intent aboutIntent = new Intent(HomeActivity.this, TestActivity.class);
             startActivity(aboutIntent );
 
         }
