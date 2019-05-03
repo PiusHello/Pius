@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="12dp"
+
+    android:layout_margin="8dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+        <TextView
+            android:id="@+id/order_number_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Order No. :"
+
+            />
+        <TextView
+            android:id="@+id/order_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="78999b67546"
+            android:layout_toRightOf="@+id/order_number_text"
+
+            />
+        <TextView
+            android:id="@+id/name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name :"
+            android:layout_below="@id/order_number_text"
+
+
+            />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deedat Idriss"
+            android:layout_toRightOf="@id/name_text"
+            android:layout_below="@+id/order_number"
+
+            />
+
+        <TextView
+            android:id="@+id/phone_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Phone : "
+            android:layout_below="@id/name_text"
+
+            />
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0269604308"
+          android:layout_toRightOf="@+id/phone_text"
+            android:layout_below="@+id/name_text"
+
+
+
+            />
+
+        <TextView
+            android:id="@+id/date_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date :"
+            android:layout_below="@id/phone_text"
+
+            />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0269604308"
+            android:layout_toRightOf="@+id/date_text"
+            android:layout_below="@+id/phone"
+
+
+
+            />
+        <TextView
+            android:id="@+id/total_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total :"
+
+            android:layout_below="@+id/date_text"
+
+
+
+            />
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GHC60.43"
+         android:layout_below="@id/date_text"
+            android:layout_alignParentEnd="true"
+
+
+
+            />
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

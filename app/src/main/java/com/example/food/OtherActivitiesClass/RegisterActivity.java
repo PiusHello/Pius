@@ -1,5 +1,6 @@
 package com.example.food.OtherActivitiesClass;
 
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -58,17 +59,15 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                CreateNewAccount();
+              CreateNewAccount();
             }
         });
     }
 
     private void GoToLoginActivity()
     {
-        Intent intent = new Intent(RegisterActivity.this,LoginActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
-        finish();
-
     }
 
     private void CreateNewAccount()
@@ -101,6 +100,10 @@ public class RegisterActivity extends AppCompatActivity {
         else if(!email.contains("@"))
         {
             Toast.makeText(RegisterActivity.this,"Email Is Invalid, Add The @ Sign",Toast.LENGTH_SHORT).show();
+        }
+        else if(!email.contains("gmail.com") && !email.contains("yahoo.com") && !email.contains("icloud.com"))
+        {
+            Toast.makeText(RegisterActivity.this,"Email Is Invalid",Toast.LENGTH_SHORT).show();
         }
 
         else if(TextUtils.isEmpty(password))
@@ -135,18 +138,18 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 currentUser.child("Username").setValue(name);
                                 currentUser.child("Email").setValue(email);
-                               // currentUser.child("Password").setValue(password);
+                                //currentUser.child("Password").setValue(password);
 
                                 loadingBox.dismiss();
                                 Toast.makeText(RegisterActivity.this,"Registration Was Successful",Toast.LENGTH_SHORT).show();
 
                                 loadingBox.dismiss();
-                                Intent homeIntent = new Intent(RegisterActivity.this,HomeActivity.class);
+                                Intent homeIntent = new Intent(RegisterActivity.this, HomeActivity.class);
                                 homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(homeIntent);
                                 finish();
 
-                            }
+                             }
 
 
                             else
