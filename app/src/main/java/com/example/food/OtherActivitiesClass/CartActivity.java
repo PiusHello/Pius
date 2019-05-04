@@ -64,6 +64,7 @@ public class CartActivity extends AppCompatActivity {
     ArrayList<Double> cartprice=new ArrayList();
     ArrayList<Integer> cartquantity=new ArrayList();
     final ArrayList<String> items=new ArrayList<>();
+    FirebaseAuth auth;
     Button checkout;
     private TextView cartStatus;
     final ArrayList<String> location = new ArrayList<>();
@@ -335,8 +336,14 @@ checkout();
         if (requestCode == RaveConstants.RAVE_REQUEST_CODE && data != null) {
             String message = data.getStringExtra("response");
             if (resultCode == RavePayActivity.RESULT_SUCCESS) {
+
                 //if payment successfull show a success page containing the order details
                 Toast.makeText(this, "SUCCESS " + message, Toast.LENGTH_SHORT).show();
+                auth=FirebaseAuth.getInstance();
+                String email=auth.getCurrentUser().getEmail();
+                ArrayList<String> email_data=new ArrayList<>();
+                email_data.clear();
+                email_data.add(email);
                 final RequestQueue queue = Volley.newRequestQueue(CartActivity.this);
                 final String url="https://imartgh.com/food/v1/sendmail";
                 queue.start();
@@ -344,6 +351,7 @@ checkout();
                 Map<String, ArrayList<String>> map = new HashMap<>();
                 map.put("param", items);
                 map.put("location",location);
+                map.put("email",email_data);
 
 
 
@@ -408,5 +416,8 @@ checkout();
             return email;
         }
     }
+
+
+
 
 }
