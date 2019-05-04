@@ -55,7 +55,7 @@ dependencies {
     //Gif dependencies
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.+'
     //Notification badge
-    implementation 'com.nex3z:notification-badge:1.0.2'
+    //implementation 'com.github.andremuon:counterfab:1..0.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
