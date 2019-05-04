@@ -48,7 +48,12 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 
 import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+<<<<<<< Updated upstream
+=======
+import java.util.Calendar;
+>>>>>>> Stashed changes
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,7 +73,7 @@ public class CartActivity extends AppCompatActivity {
     private TextView cartStatus;
     final ArrayList<String> location = new ArrayList<>();
 
-    private String user_id;
+    private String user_id, foodkey;
 
     private double OverRawTotalPrice = 0;
 
@@ -85,7 +90,11 @@ public class CartActivity extends AppCompatActivity {
 
         cartStatus = (TextView) findViewById(R.id.CurrentCartStatus);
 
+<<<<<<< Updated upstream
 checkout();
+=======
+        checkout();
+>>>>>>> Stashed changes
         //proceedButton = (Button) findViewById(R.id.proceedButton);
         totalAmount = (TextView) findViewById(R.id.totalprice);
         cartFoodPicture = (ImageView)findViewById(R.id.cartFoodImage);
@@ -107,8 +116,8 @@ checkout();
         //final DatabaseReference cartList = FirebaseDatabase.getInstance().getReference().child("Cart List");
         final FirebaseRecyclerOptions<Cart> options =
                 new FirebaseRecyclerOptions.Builder<Cart>()
-                .setQuery(cartList.child("Users View")
-                        .child(user_id).child("Food_List"),Cart.class)
+                        .setQuery(cartList.child("Users View")
+                                .child(user_id).child("Food_List"),Cart.class)
                         .build();
 
         FirebaseRecyclerAdapter<Cart, CartViewHolder> adapter
@@ -172,7 +181,7 @@ checkout();
                                                     if(task.isSuccessful())
                                                     {
                                                         Toast.makeText(CartActivity.this,"One Item has Been Remove From The Cart",Toast.LENGTH_LONG).show();
-                                                    //After the which, user will be directed to the CartActivity class
+                                                        //After the which, user will be directed to the CartActivity class
                                                         Intent intent = new Intent(CartActivity.this,CartActivity.class);
                                                         startActivity(intent);
                                                         finish();
@@ -193,9 +202,9 @@ checkout();
             @NonNull
             @Override
             public CartViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                 View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cart_list_layout,viewGroup,false);
-                 CartViewHolder holder = new CartViewHolder(view);
-                 return holder;
+                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cart_list_layout,viewGroup,false);
+                CartViewHolder holder = new CartViewHolder(view);
+                return holder;
             }
         };
 
@@ -259,6 +268,7 @@ checkout();
                 //Here,users will be sent to the payment section of the app.
 
                 checkout.setOnClickListener(new View.OnClickListener() {
+<<<<<<< Updated upstream
     @Override
     public void onClick(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
@@ -319,6 +329,68 @@ checkout();
         //An Instance from the Rave class
 
     }
+=======
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
+                        builder.setTitle("Enter you Location");
+
+// Set up the input
+                        final EditText input = new EditText(CartActivity.this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_CLASS_TEXT);
+
+                        builder.setView(input);
+
+// Set up the buttons
+                        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                location.clear();
+                                location.add(input.getText().toString());
+                                new RavePayManager(CartActivity.this).setAmount(finalTotal)
+                                        .setCountry("GH")
+                                        .setCurrency("GHS")
+                                        .setEmail(email)
+                                        .setfName(userNameFromEmail(email))
+                                        //.setlName("billa")
+                                        //.setNarration("")
+
+                                        //replace with your public key from the flutterwave dashboard
+                                        .setPublicKey("FLWPUBK-bfe00f7d1b2c64566bbea939c946063d-X")
+                                        //replace with your ecncryption key from the flutterwave dashboard
+                                        .setEncryptionKey("75d50f227fec111a9adbf45d")
+                                        //here a random string is generated for txref
+                                        .setTxRef(generateTXREF())
+                                        .acceptAccountPayments(true)
+                                        .acceptCardPayments(true)
+                                        .acceptMpesaPayments(false)
+                                        .acceptAchPayments(false)
+                                        .acceptGHMobileMoneyPayments(true)
+                                        .acceptUgMobileMoneyPayments(false)
+                                        .onStagingEnv(true)
+                                        .allowSaveCardFeature(true)
+                                        //.setMeta(List<Meta>)
+                                        .withTheme(R.style.AppTheme)
+                                        .isPreAuth(false)
+
+                                        //  .setSubAccounts(List<SubAccount>)
+                                        //.shouldDisplayFee(true)
+                                        .initialize();
+                            }
+                        });
+                        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+
+                        builder.show();
+                        //An Instance from the Rave class
+
+                    }
+>>>>>>> Stashed changes
                 });
             }
 
@@ -381,9 +453,70 @@ checkout();
                 Toast.makeText(this, "CANCELLED " + message, Toast.LENGTH_SHORT).show();
             }
         }
-        else {
-            super.onActivityResult(requestCode, resultCode, data);
+//        else {
+//            super.onActivityResult(requestCode, resultCode, data);
+//        }
+
+        else
+        {
+            addUserDataToOrderTable();
         }
+    }
+
+    private void addUserDataToOrderTable()
+    {
+        Calendar calendarForDate = Calendar.getInstance();
+        SimpleDateFormat currentDate =new SimpleDateFormat("MM dd, yyyy");
+        String saveCurrentDate = currentDate.format(calendarForDate.getTime());
+
+        SimpleDateFormat currentTime =new SimpleDateFormat("MM dd, yyyy");
+        String saveCurrentTime = currentDate.format(calendarForDate.getTime());
+
+        final DatabaseReference cartList = FirebaseDatabase.getInstance().getReference().child("Orders");
+
+
+        final HashMap<String,Object> CartMap = new HashMap<>();
+        CartMap.put("User",user_id);
+       // CartMap.put("Name",);
+        //CartMap.put("Description",food_description.getText().toString());
+        //CartMap.put("image",url);
+        //dont do this.. because it will include the cedi sign and the string "Price". this will prevent you from doing arithemetic operations
+        // CartMap.put("Price",food_price.getText().toString());
+
+
+        //do this
+       // CartMap.put("Price",foodPrice);
+        CartMap.put("Date",saveCurrentDate);
+        CartMap.put("Time",saveCurrentTime);
+        // CartMap.put("Image",food_image);
+        //CartMap.put("Quantity",NumberButton.getNumber());
+
+        cartList.child("Users View").child(user_id).child("NewOrders")
+                .child(foodkey).updateChildren(CartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task)
+            {
+                if(task.isSuccessful())
+                {
+                    cartList.child("Admin View").child(user_id).child("NewOrders").child(foodkey)
+                            .updateChildren(CartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task)
+                        {
+
+                            if(task.isSuccessful())
+                            {
+                                Toast.makeText(CartActivity.this,"Your order has being placed",Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(CartActivity.this, HomeActivity.class);
+                                startActivity(intent);
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+
     }
 
     // this function will generate a random transaction reference

@@ -23,8 +23,8 @@
     android:id="@+id/food_image"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:scaleType="centerCrop"
-    android:src="@drawable/banku"
+    android:scaleType="centerCrop"></ImageView>
+    <!--android:src="@drawable/banku"-->
 
 
     />

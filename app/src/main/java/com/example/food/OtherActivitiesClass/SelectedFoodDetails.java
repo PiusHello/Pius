@@ -44,6 +44,7 @@ public class SelectedFoodDetails extends AppCompatActivity {
     FirebaseUser currentUser;
     String foodPrice;
     String url;
+    String user_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +64,7 @@ public class SelectedFoodDetails extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        user_id = currentUser.getUid();
         //userData = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getEmail());
 
         addToCartButton.setOnClickListener(new View.OnClickListener() {
@@ -123,14 +125,14 @@ public class SelectedFoodDetails extends AppCompatActivity {
        // CartMap.put("Image",food_image);
         CartMap.put("Quantity",NumberButton.getNumber());
 
-        cartList.child("Users View").child(Prevalent.currentOnLineUser).child("Food_List")
+        cartList.child("Users View").child(user_id).child("Food_List")
                 .child(foodkey).updateChildren(CartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task)
             {
                 if(task.isSuccessful())
                 {
-                    cartList.child("Admin View").child(Prevalent.currentOnLineUser).child("Food_List").child(foodkey)
+                    cartList.child("Admin View").child(user_id).child("Food_List").child(foodkey)
                             .updateChildren(CartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task)
