@@ -51,6 +51,7 @@
 
 
         </android.support.v7.widget.RecyclerView>
+
         <TextView
             android:id="@+id/CurrentCartStatus"
             android:layout_width="wrap_content"
@@ -61,7 +62,8 @@
             android:text="You have no item in the cart"
             android:textAlignment="center"
             android:textColor="@color/colorBlack"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/l1"

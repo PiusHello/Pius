@@ -1,5 +1,6 @@
 package com.example.food.OtherActivitiesClass;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,22 +39,20 @@ public class SelectedFoodDetails extends AppCompatActivity {
     FloatingActionButton cart_number_button;
     String foodkey = null;
 
-    DatabaseReference mDatabase;
+    DatabaseReference mDatabase,userData;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     String foodPrice;
     String url;
-    String userData;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_food_details);
 
         foodkey = getIntent().getStringExtra("FoodID");
+         url = getIntent().getStringExtra("image");
         mDatabase = FirebaseDatabase.getInstance().getReference().child("FoodList");
 
-       foodkey = getIntent().getStringExtra("FoodID");
-       url = getIntent().getStringExtra("image");
 
         food_name  = (TextView) findViewById(R.id.FoodName);
         food_description =(TextView) findViewById(R.id.FoodDescription);
@@ -64,8 +63,7 @@ public class SelectedFoodDetails extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        userData = currentUser.getUid();
-
+        //userData = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getEmail());
 
         addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +78,7 @@ public class SelectedFoodDetails extends AppCompatActivity {
             {
                 String foodName = (String) dataSnapshot.child("Name").getValue();
                 String foodDescription = (String) dataSnapshot.child("Description").getValue();
-                 foodPrice = (String) dataSnapshot.child("Price").getValue();
+                foodPrice = (String) dataSnapshot.child("Price").getValue();
                 String foodImage = (String) dataSnapshot.child("Image").getValue();
 
                 food_name.setText(foodName);
@@ -104,8 +102,8 @@ public class SelectedFoodDetails extends AppCompatActivity {
         SimpleDateFormat currentDate =new SimpleDateFormat("MM dd, yyyy");
         String saveCurrentDate = currentDate.format(calendarForDate.getTime());
 
-        SimpleDateFormat currentTime =new SimpleDateFormat("HH:mm:ss a");
-        String saveCurrentTime = currentTime.format(calendarForDate.getTime());
+        SimpleDateFormat currentTime =new SimpleDateFormat("MM dd, yyyy");
+        String saveCurrentTime = currentDate.format(calendarForDate.getTime());
 
        final DatabaseReference cartList = FirebaseDatabase.getInstance().getReference().child("Cart List");
 
@@ -122,18 +120,17 @@ public class SelectedFoodDetails extends AppCompatActivity {
         CartMap.put("Price",foodPrice);
         CartMap.put("Date",saveCurrentDate);
         CartMap.put("Time",saveCurrentTime);
+       // CartMap.put("Image",food_image);
         CartMap.put("Quantity",NumberButton.getNumber());
 
-
-
-        cartList.child("Users View").child(userData).child("Food_List")
+        cartList.child("Users View").child(Prevalent.currentOnLineUser).child("Food_List")
                 .child(foodkey).updateChildren(CartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task)
             {
                 if(task.isSuccessful())
                 {
-                    cartList.child("Admin View").child(userData).child("Food_List").child(foodkey)
+                    cartList.child("Admin View").child(Prevalent.currentOnLineUser).child("Food_List").child(foodkey)
                             .updateChildren(CartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task)
@@ -142,9 +139,8 @@ public class SelectedFoodDetails extends AppCompatActivity {
                             if(task.isSuccessful())
                             {
                                 Toast.makeText(SelectedFoodDetails.this,"Food Has Being Added To Cart",Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(SelectedFoodDetails.this,HomeActivity.class);
+                                Intent intent = new Intent(SelectedFoodDetails.this, HomeActivity.class);
                                 startActivity(intent);
-                                finish();
                             }
                         }
                     });

@@ -51,12 +51,10 @@ public class CartActivity extends AppCompatActivity {
     ArrayList<Integer> cartquantity=new ArrayList();
     Button checkout;
     private TextView cartStatus;
-    ArrayList<Integer> numberOfCartItem = new ArrayList();
 
     private String user_id;
 
     private double OverRawTotalPrice = 0;
-    FirebaseRecyclerAdapter  adapter;
 
 
     @Override
@@ -70,7 +68,7 @@ public class CartActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         cartStatus = (TextView) findViewById(R.id.CurrentCartStatus);
-        checkout();
+checkout();
         //proceedButton = (Button) findViewById(R.id.proceedButton);
         totalAmount = (TextView) findViewById(R.id.totalprice);
         cartFoodPicture = (ImageView)findViewById(R.id.cartFoodImage);
@@ -85,16 +83,6 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        if(numberOfCartItem.size() > 0)
-        {
-            recyclerView.setVisibility(View.GONE);
-        }
-
-        else
-        {
-            cartStatus.setVisibility(View.VISIBLE);
-        }
 
 
 
@@ -124,7 +112,6 @@ public class CartActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v)
                     {
-
                         //Array list of options
                         CharSequence[] options;
                         options = new CharSequence[]
