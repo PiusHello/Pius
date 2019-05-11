@@ -26,6 +26,7 @@ import com.example.food.TestActivity;
 import com.example.food.ViewHolder.FoodCategoryList;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.common.internal.service.Common;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,7 +50,9 @@ HomeActivity extends AppCompatActivity
     RecyclerView.LayoutManager layoutManager;
     String currentUserID,currentUserEmail;
 
-    public NotificationBadge badge;
+
+    NotificationBadge badge;
+
 
 
 
@@ -60,6 +63,8 @@ HomeActivity extends AppCompatActivity
 
         recyclerView = findViewById(R.id.recycler_menu);
         recyclerView.setHasFixedSize(true);
+
+
 
        //recyclerView.setLayoutManager(new GridLayoutManager(this,2));
        layoutManager = new LinearLayoutManager(this);
@@ -206,11 +211,13 @@ HomeActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_action_bar, menu);
         View view = menu.findItem(R.id.cart_menu).getActionView();
-       // badge = (NotificationBadge) view.findViewById(R.id.badge);
-      //  NotificationBadge  badge = (NotificationBadge) view.findViewById(R.id.badge);
+//        badge = (NotificationBadge) view.findViewById(R.id.badge);
         //updateCartCount();
         return true;
     }
+
+
+
 
     //This method will be called when the cart is been updated
 //    private void updateCartCount()
@@ -272,6 +279,12 @@ HomeActivity extends AppCompatActivity
         else if (id == R.id.nav_order)
         {
 
+        }
+
+        else if (id == R.id.searchParticularFood)
+        {
+            Intent startSearchForFood = new Intent(this,SearchFoodActivity.class);
+            startActivity(startSearchForFood);
         }
 
         else if (id == R.id.checkout)

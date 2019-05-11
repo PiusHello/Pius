@@ -104,10 +104,10 @@ public class SelectedFoodDetails extends AppCompatActivity {
         SimpleDateFormat currentDate =new SimpleDateFormat("MM dd, yyyy");
         String saveCurrentDate = currentDate.format(calendarForDate.getTime());
 
-        SimpleDateFormat currentTime =new SimpleDateFormat("MM dd, yyyy");
-        String saveCurrentTime = currentDate.format(calendarForDate.getTime());
+        SimpleDateFormat currentTime =new SimpleDateFormat("HH:mm:ss a");
+        String saveCurrentTime = currentTime.format(calendarForDate.getTime());
 
-       final DatabaseReference cartList = FirebaseDatabase.getInstance().getReference().child("Cart List");
+       final DatabaseReference cartList = FirebaseDatabase.getInstance().getReference().child("CartList");
 
         final HashMap<String,Object> CartMap = new HashMap<>();
         CartMap.put("FoodID",foodkey);
@@ -125,14 +125,14 @@ public class SelectedFoodDetails extends AppCompatActivity {
        // CartMap.put("Image",food_image);
         CartMap.put("Quantity",NumberButton.getNumber());
 
-        cartList.child("Users View").child(user_id).child("Food_List")
+        cartList.child("UsersView").child(user_id).child("FoodList")
                 .child(foodkey).updateChildren(CartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task)
             {
                 if(task.isSuccessful())
                 {
-                    cartList.child("Admin View").child(user_id).child("Food_List").child(foodkey)
+                    cartList.child("AdminView").child(user_id).child("FoodList").child(foodkey)
                             .updateChildren(CartMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task)
