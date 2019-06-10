@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.food.Model.FoodCategory;
+import com.example.food.Model.Users;
 import com.example.food.Prevalent.Prevalent;
 import com.example.food.R;
 import com.example.food.TestActivity;
@@ -45,10 +46,12 @@ HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth firebaseAuth;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference,databaseCartNumber,usersPicture;
     private RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     String currentUserID,currentUserEmail;
+    private int countCart = 0;
+    private  NotificationBadge notificationBadge;
 
 
     NotificationBadge badge;
@@ -64,7 +67,7 @@ HomeActivity extends AppCompatActivity
         recyclerView = findViewById(R.id.recycler_menu);
         recyclerView.setHasFixedSize(true);
 
-
+        notificationBadge = findViewById(R.id.badge);
 
        //recyclerView.setLayoutManager(new GridLayoutManager(this,2));
        layoutManager = new LinearLayoutManager(this);
@@ -77,7 +80,8 @@ HomeActivity extends AppCompatActivity
         currentUserEmail = firebaseAuth.getCurrentUser().getEmail();
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Category");
-
+        databaseCartNumber = FirebaseDatabase.getInstance().getReference().child("Cart");
+        usersPicture = FirebaseDatabase.getInstance().getReference().child("Users");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Home");
@@ -113,7 +117,7 @@ HomeActivity extends AppCompatActivity
         final CircleImageView profileImage = headerView.findViewById(R.id.profile_image);
 
         profileName.setText(username);
-        Picasso.get().load(Prevalent.UserEmailKey).placeholder(R.drawable.background).into(profileImage);
+
 
         databaseReference.child(currentUserID).addValueEventListener(new ValueEventListener() {
             @Override
@@ -123,8 +127,7 @@ HomeActivity extends AppCompatActivity
                 {
                     String fullname = dataSnapshot.child("Username").getValue().toString();
                     Log.v("username",""+fullname+"");
-                    // profileName.setText(fullname);
-                }
+            }
 
             }
 
@@ -133,7 +136,11 @@ HomeActivity extends AppCompatActivity
 
             }
         });
+
+
     }
+
+
 
 
         public  String userNameFromEmail(String email)
@@ -147,6 +154,8 @@ HomeActivity extends AppCompatActivity
                 return email;
             }
         }
+
+
 
     @Override
     protected void onStart() {
@@ -210,36 +219,12 @@ HomeActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_action_bar, menu);
-        View view = menu.findItem(R.id.cart_menu).getActionView();
-//        badge = (NotificationBadge) view.findViewById(R.id.badge);
-        //updateCartCount();
+
         return true;
     }
 
 
 
-
-    //This method will be called when the cart is been updated
-//    private void updateCartCount()
-//    {
-//        if(badge == null) return;
-//        runOnUiThread(new Runnable() {
-//            @Override
-//            public void run()
-//            {
-//                if(Common.cartRepository.countCartItems() == 0)
-//                    badge.setVisibility(View.INVISIBLE);
-//
-//                else
-//                {
-//                    badge.setVisibility(View.VISIBLE);
-//                    badge.setText(String.valueOf(Common.cartRepository.countCartItem()));
-//                }
-//            }
-//
-//
-//        });
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -339,4 +324,6 @@ HomeActivity extends AppCompatActivity
         super.onPostResume();
        // updateCartCount();
     }
+
+
 }

@@ -59,7 +59,7 @@ public class SearchFoodActivity extends AppCompatActivity {
 
          layoutManager = new LinearLayoutManager(this);
          searchFoodRecyclerView.setLayoutManager(layoutManager);
-        // query = mDatabase.orderByChild("Name").equals();
+//         query.orderByChild("Name").equals(mDatabase);
 
         searchFoodButton.setOnClickListener(new View.OnClickListener() {
             @Override

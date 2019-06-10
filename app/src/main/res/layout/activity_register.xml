@@ -5,14 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".OtherActivitiesClass.RegisterActivity">
+
     <TextView
+        android:id="@+id/restaurentName"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="Register Here"
+        android:layout_height="90dip"
+        android:background="@color/colorBlurBlue"
+        android:layout_margin="10dip"
+        android:text="GRAPP RESTAURANT"
         android:textAlignment="center"
-        android:textColor="@color/colorBlack"
-        android:textSize="16dp"
-        android:layout_marginTop="10dp"/>
+        android:textColor="@color/colorWhite"
+        android:textSize="30dip"/>
+
+
 
     <EditText
         android:id="@+id/username"
@@ -20,7 +25,8 @@
         android:layout_height="55dp"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/restaurentName"
         android:layout_marginRight="10dp"
         android:hint="Username"
         android:inputType="textAutoComplete"/>
@@ -32,7 +38,8 @@
         android:layout_height="55dp"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="160dp"
+        android:layout_below="@+id/username"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="10dp"
         android:hint="Email"
         android:inputType="textEmailAddress"/>
@@ -43,18 +50,20 @@
         android:layout_height="55dp"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="40dp"
-        android:layout_marginTop="220dp"
+        android:layout_below="@+id/user_email"
         android:layout_marginRight="10dp"
         android:hint="Password"
+        android:layout_marginTop="15dp"
         android:inputType="textPassword"/>
 
     <Button
         android:id="@+id/sign_up_button"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="300dp"
-        android:background="@color/colorBlue"
+        android:layout_margin="30dp"
+        android:background="@color/colorBlurBlue"
         android:text="Sign Up"
+        android:layout_below="@+id/user_password"
         android:textColor="@color/colorWhite"
         android:textSize="16dp" />
 
@@ -67,7 +76,7 @@
         android:textAlignment="center"
         android:textColor="@color/colorBlue"
         android:textSize="16dp"
-        android:layout_marginTop="370dp"/>
+        android:layout_below="@+id/sign_up_button"/>
 
 
 

@@ -28,10 +28,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import io.paperdb.Paper;
-
+import com.example.food.Model.Users;
 public class LoginActivity extends AppCompatActivity {
 
-    private TextView createAccount;
+    public  String databaseName = "Managers";
+
+    private TextView createAccount ;
+
     private EditText userEmail;
     private EditText userPassword;
     private Button signIn;
@@ -52,8 +55,10 @@ public class LoginActivity extends AppCompatActivity {
         userPassword = (EditText) findViewById(R.id.user_password);
         signIn = (Button) findViewById(R.id.sign_in_button);
         createAccount = (TextView) findViewById(R.id.dont_have_account);
+
         checkBox= (CheckBox) findViewById(R.id.remember_me);
         Paper.init(this);
+
 
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,21 +116,23 @@ public class LoginActivity extends AppCompatActivity {
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                         if(dataSnapshot.hasChild(user_id))
                                         {
-                                            progressDialog.dismiss();
+                                                progressDialog.dismiss();
 
-                                            Intent homeIntent = new Intent(LoginActivity.this,HomeActivity.class);
-                                            homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                            Prevalent.currentOnLineUser = user_id;
-                                            startActivity(homeIntent);
-                                            finish();
+                                                Intent homeIntent = new Intent(LoginActivity.this,HomeActivity.class);
+                                                homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                Prevalent.currentOnLineUser = user_id;
+                                                startActivity(homeIntent);
+                                                finish();
 
-                                            Toast.makeText(LoginActivity.this,"You Have Successfully Logged In",Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(LoginActivity.this,"You Have Successfully Logged In",Toast.LENGTH_SHORT).show();
+
+                                            }
 
                                         }
 
 
 
-                                    }
+
 
                                     @Override
                                     public void onCancelled(@NonNull DatabaseError databaseError) {

@@ -114,11 +114,6 @@ public class SelectedFoodDetails extends AppCompatActivity {
         CartMap.put("Name",food_name.getText().toString());
         CartMap.put("Description",food_description.getText().toString());
         CartMap.put("image",url);
-        //dont do this.. because it will include the cedi sign and the string "Price". this will prevent you from doing arithemetic operations
-       // CartMap.put("Price",food_price.getText().toString());
-
-
-        //do this
         CartMap.put("Price",foodPrice);
         CartMap.put("Date",saveCurrentDate);
         CartMap.put("Time",saveCurrentTime);

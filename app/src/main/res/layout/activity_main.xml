@@ -5,19 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".OtherActivitiesClass.MainActivity"
-    android:background="@mipmap/ic_sign_up_background">
+    >
 
+    <TextView
+        android:id="@+id/restaurentName"
+        android:layout_width="match_parent"
+        android:layout_height="100dip"
+        android:background="@color/colorBlurBlue"
+        android:layout_margin="10dip"
+        android:text="GRAPP RESTAURANT"
+        android:textAlignment="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="30dip"/>
+
+    <com.rey.material.widget.ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dip"
+        android:layout_below="@+id/restaurentName"
+        android:layout_marginTop="89dp"
+        android:layout_marginBottom="10dip"
+        android:background="@mipmap/ic_welcome_image" />
 
     <Button
         android:id="@+id/sign_in_button"
         android:layout_width="150dip"
-        android:layout_height="40dp"
+        android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="10dp"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="50dp"
-        android:layout_marginBottom="0dp"
-        android:background="@color/colorOrange"
+        android:layout_marginBottom="43dp"
+        android:background="@color/colorBlurBlue"
         android:text="Login"
         android:textColor="@color/colorWhite"
         android:textSize="16dp" />
@@ -26,15 +44,15 @@
     <Button
         android:id="@+id/sign_up_button"
         android:layout_width="150dip"
-        android:layout_height="40dp"
-        android:layout_alignParentBottom="true"
+        android:layout_height="60dp"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginStart="50dp"
         android:layout_marginTop="50dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="0dp"
-        android:background="@color/colorOrange"
-        android:text="Register"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="43dp"
+        android:background="@color/colorBlurBlue"
+        android:text="Register "
         android:textColor="@color/colorWhite"
         android:textSize="16dp" />
 

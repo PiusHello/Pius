@@ -86,7 +86,7 @@
         <Button
             android:id="@+id/addToCart"
             android:layout_alignParentBottom="true"
-            android:background="@color/colorBlue"
+            android:background="@color/colorBlurBlue"
             android:text="Add To Cart"
             android:textColor="@color/colorWhite"
             android:textSize="16dp"

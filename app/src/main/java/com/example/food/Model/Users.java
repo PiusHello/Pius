@@ -1,17 +1,18 @@
 package com.example.food.Model;
 
 public class Users {
-    public String Username, Email, Image, Location;
+    public String Username, Email, Image, Location, Phone;
 
     public Users() {
 
     }
 
-    public Users(String username, String email, String image, String location) {
+    public Users(String username, String email, String image, String location, String phone) {
         Username = username;
         Email = email;
         Image = image;
         Location = location;
+        Phone = phone;
     }
 
     public String getUsername() {
@@ -44,5 +45,13 @@ public class Users {
 
     public void setLocation(String location) {
         Location = location;
+    }
+
+    public String getPhone() {
+        return Phone;
+    }
+
+    public void setPhone(String phone) {
+        Phone = phone;
     }
 }

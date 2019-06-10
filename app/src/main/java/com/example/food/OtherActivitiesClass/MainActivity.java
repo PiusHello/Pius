@@ -8,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.food.Prevalent.Prevalent;
@@ -28,7 +27,6 @@ import io.paperdb.Paper;
 public class MainActivity extends AppCompatActivity {
 
     private Button signup,signin;
-    private TextView signInWithPhoneNumber;
     private FirebaseAuth firebaseAuth;
     private DatabaseReference myDatabase;
     private ProgressDialog progressDialog;
@@ -39,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
         signin = (Button) findViewById(R.id.sign_in_button);
         signup = (Button) findViewById(R.id.sign_up_button);
-        //signInWithPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
 
+        //signInWithPhoneNumber = (TextView) findViewById(R.id.phoneNumber);
         firebaseAuth =FirebaseAuth.getInstance();
         myDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
 

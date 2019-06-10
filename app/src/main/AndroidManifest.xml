@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.food">
@@ -16,10 +17,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:theme">
-        <activity android:name=".OtherActivitiesClass.SearchFoodActivity"></activity>
-        <activity android:name=".OtherActivitiesClass.MainActivity"
-            android:theme="@style/AppTheme" />
-        <!--<activity android:name=".OtherActivitiesClass.ConfirmOrder" />-->
+        <activity android:name=".OtherActivitiesClass.SearchFoodActivity" />
+        <activity
+            android:name=".OtherActivitiesClass.MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            <!--android:theme="@style/AppTheme"  &lt;!&ndash; <activity android:name=".OtherActivitiesClass.ConfirmOrder" /> &ndash;&gt;-->
         <activity android:name=".OtherActivitiesClass.RegisterWithPhone" />
         <activity android:name=".OtherActivitiesClass.FoodList" />
         <activity
@@ -30,12 +32,14 @@
             android:name=".OtherActivitiesClass.SettingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".OtherActivitiesClass.SelectedFoodDetails" />
-        <activity android:name=".OtherActivitiesClass.LoginActivity" />
+        <activity android:name=".OtherActivitiesClass.LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".OtherActivitiesClass.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".OtherActivitiesClass.RegisterActivity" />
+        <activity android:name=".OtherActivitiesClass.RegisterActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".OtherActivitiesClass.WelcomeActivity"
             android:theme="@style/AppTheme.NoActionBar">

@@ -9,6 +9,6 @@
   <color name="colorWhite">#f5f0f0</color>
   <color name="colorOrange">#CC6633</color>
   <color name="colorBlack">#000000</color>
-
+  <color name="colorBlurBlue">#9cb2ce</color>
   <color name="black_overlay">#66000000</color>
 </resources>

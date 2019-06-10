@@ -33,6 +33,7 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.flutterwave.raveandroid.RaveConstants;
 import com.flutterwave.raveandroid.RavePayActivity;
 import com.flutterwave.raveandroid.RavePayManager;
+import com.google.android.gms.common.internal.service.Common;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -114,13 +115,14 @@ public class CartActivity extends AppCompatActivity {
         }
 
         totalAmount.setText("Total Price : " + String.valueOf(OverRawTotalPrice));
-                final FirebaseRecyclerOptions<Cart> options =
+
+        final FirebaseRecyclerOptions<Cart> options =
                 new FirebaseRecyclerOptions.Builder<Cart>()
                         .setQuery(cartList.child("UsersView")
                                 .child(user_id).child("FoodList"), Cart.class)
                         .build();
 
-     final FirebaseRecyclerAdapter<Cart, CartViewHolder> adapter
+        final FirebaseRecyclerAdapter<Cart, CartViewHolder> adapter
                 = new FirebaseRecyclerAdapter<Cart, CartViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull CartViewHolder holder, int position, @NonNull final Cart model) {
@@ -258,8 +260,11 @@ public class CartActivity extends AppCompatActivity {
 
                         View view = LayoutInflater.from(CartActivity.this).inflate(R.layout.small_dialog_for_order_details,null);
 
-                          user_location = (EditText) findViewById(R.id.users_location);
-                          user_phone = (EditText) findViewById(R.id.users_phone);
+
+                        user_location = (EditText) findViewById(R.id.users_locations);
+                        user_phone = (EditText) findViewById(R.id.users_phones);
+
+
 
                         final AlertDialog.Builder builder = new AlertDialog.Builder(CartActivity.this);
                         builder.setView(view)
@@ -267,27 +272,22 @@ public class CartActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
-//                                String area = user_location.getText().toString().trim();
-//                                String phone = user_phone.getText().toString().trim();
-//
-//                                 if (area.isEmpty())
-//                                 {
-//                                    Toast.makeText(CartActivity.this, "Your location is mandatory", Toast.LENGTH_SHORT).show();
-//                                 }
-//
-//                                 else if (phone.isEmpty()) {
-//                                    Toast.makeText(CartActivity.this, "Your phone number is mandatory", Toast.LENGTH_SHORT).show();
-//                                }
-//
+                                        String loca = user_location.getText().toString();
+                                        String phone = user_phone.getText().toString();
 
-
-//                                location.clear();
-//                                location.add(user_location.getText().toString());
-//
-//                                phoneNumber.clear();
-//                                phoneNumber.add(user_phone.getText().toString());
-
-
+                                        if(loca.isEmpty())
+                                        {
+                                            user_location.setError("Enter your location");
+                                            user_location.requestFocus();
+                                            return;
+                                        }
+                                        else if(phone.isEmpty())
+                                        {
+                                            user_phone.setError("Provide a valid phone number");
+                                            user_phone.requestFocus();
+                                            return;
+                                        }
+                                        else{
                                         new RavePayManager(CartActivity.this).setAmount(finalTotal)
                                                 .setCountry("GH")
                                                 .setCurrency("GHS")
@@ -318,7 +318,9 @@ public class CartActivity extends AppCompatActivity {
                                                 //.shouldDisplayFee(true)
                                                 .initialize();
                                     }
+                                    }
                                 });
+
 
 // Set up the input
 
@@ -377,12 +379,9 @@ public class CartActivity extends AppCompatActivity {
                 queue.start();
 
                 Map<String, ArrayList<String>> map = new HashMap<>();
-                Map<String, EditText> map1 = new HashMap<>();
                 map.put("param", items);
-                map1.put("location",user_location);
-                map.put("items", items);
+                map.put("location",location);
                 map.put("email", email_data);
-
 
                 Log.v("tested", map.toString());
                 JsonObjectRequest jsObjRequest = new
@@ -434,7 +433,7 @@ public class CartActivity extends AppCompatActivity {
         orderMap.put("Date",saveCurrentDate);
         orderMap.put("Time",saveCurrentTime);
         orderMap.put("Phone",user_phone);
-        orderMap.put("Location",user_location);
+        orderMap.put("Location",location);
         orderMap.put("OrderStatus","Not Delived");
 
 
@@ -458,7 +457,7 @@ public class CartActivity extends AppCompatActivity {
                                         .child("UsersView")
                                         .child(user_id)
                                         .removeValue();
-                                cartState();
+
 
 
                                 Toast.makeText(CartActivity.this,"Your new order has been placed",Toast.LENGTH_LONG).show();
@@ -474,18 +473,6 @@ public class CartActivity extends AppCompatActivity {
 
 
     }
-
-    private void cartState()
-    {
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(CartActivity.this);
-        builder1.setTitle("Cart State");
-
-        final TextView textView = new TextView(CartActivity.this);
-        textView.setText("Your cart is empty");
-        builder1.setView(textView);
-    }
-
-
     // this function will generate a random transaction reference
     public static String generateTXREF() {
         String ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_";
